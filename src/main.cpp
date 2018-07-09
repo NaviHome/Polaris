@@ -28,13 +28,13 @@ void setup()
 
 void loop()
 {
+    long startTime = millis();
     digitalWrite(13, HIGH); //one loop
 
     LcdHelper::printFromStart(String(BMP180::getSensor().readTemperature()) + "C/" + String(BMP180::getSensor().readPressure()) + "Pa");
 
-    if(DHT11::readSensor()){//prepare to obtain data
-        LcdHelper::printSecondLine(String(DHT11::getTemperature()) + "C / " + String(DHT11::getHumidity()) + "%");
-    }
+    DHT11::readSensor();
+    LcdHelper::printSecondLine(String(DHT11::getTemperature()) + "C / " + String(DHT11::getHumidity()) + "% " + String(millis() - startTime) + "ms");
 
     Util::encodeAndSendJsonData(NAME, VER);
 

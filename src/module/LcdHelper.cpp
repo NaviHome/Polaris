@@ -6,7 +6,7 @@ LiquidCrystal_I2C display(0x3F, 16, 4);
 void LcdHelper::init()
 {
     display.begin();
-    display.noBacklight();
+    display.backlight();
 }
 
 LiquidCrystal_I2C LcdHelper::getLcd()
