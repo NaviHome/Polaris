@@ -4,3 +4,6 @@
 [submodule "lib/BMP180"]
 	path = lib/BMP180
 	url = https://github.com/adafruit/Adafruit-BMP085-Library.git
+[submodule "lib/ArduinoJson"]
+	path = lib/ArduinoJson
+	url = https://github.com/bblanchon/ArduinoJson
