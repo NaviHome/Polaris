@@ -1,8 +1,10 @@
 #include <ArduinoJson.h>
 #include "Util.h"
 #include "module/BMP180.h"
+#include "module/DHT11.h"
 
-void Util::encodeAndSendJsonData(String name, String ver){
+void Util::encodeAndSendJsonData(String name, String ver)
+{
     DynamicJsonBuffer jsonBuffer;
     JsonObject &root = jsonBuffer.createObject();
     root["fw_name"] = name;
@@ -10,7 +12,8 @@ void Util::encodeAndSendJsonData(String name, String ver){
     root["uptime"] = millis();
 
     JsonArray &sensorData = root.createNestedArray("sensors");
-    sensorData.add(jsonBuffer.parseObject(BMP180::getJsonData()));
+    BMP180::addJsonData(sensorData);
+    DHT11::addJsonData(sensorData);
 
     root.printTo(Serial);
     Serial.println();

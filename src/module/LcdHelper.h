@@ -6,11 +6,11 @@
 class LcdHelper
 {
 public:
-    static void init();
-    static LiquidCrystal_I2C getLcd();
-    static void printFromStart(String str);
-    static void printSecondLine(String str);
-    static void clear();
+  static void init();
+  static LiquidCrystal_I2C getLcd();
+  static void printFromStart(String str);
+  static void printSecondLine(String str);
+  static void clear();
 };
 
 #endif

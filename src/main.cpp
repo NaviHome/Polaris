@@ -1,5 +1,6 @@
 #include <Arduino.h>
 #include <ArduinoJson.h>
+#include "module/DHT11.h"
 #include "module/LcdHelper.h"
 #include "module/BMP180.h"
 #include "util/Util.h"
@@ -9,11 +10,12 @@ const String VER = "0.1.0";
 
 const int LOOP_DELAY = 500;
 
-void setup() {
+void setup()
+{
     Serial.begin(115200);
-    pinMode(13, OUTPUT);//led on board
-
+    pinMode(13, OUTPUT); //led on board
     digitalWrite(13, HIGH);
+
     LcdHelper::init();
     LcdHelper::printFromStart(NAME + " " + VER);
     LcdHelper::printSecondLine("Now loading...");
@@ -24,11 +26,15 @@ void setup() {
     BMP180::init();
 }
 
-void loop() {
-    digitalWrite(13, HIGH);//one loop
+void loop()
+{
+    digitalWrite(13, HIGH); //one loop
 
-    LcdHelper::printFromStart("Temp: " + String(BMP180::getBmp().readTemperature()) + " *C");
-    LcdHelper::printSecondLine("Pres: " + String(BMP180::getBmp().readPressure()) + " Pa");
+    LcdHelper::printFromStart(String(BMP180::getSensor().readTemperature()) + "C/" + String(BMP180::getSensor().readPressure()) + "Pa");
+
+    if(DHT11::readSensor()){//prepare to obtain data
+        LcdHelper::printSecondLine(String(DHT11::getTemperature()) + "C / " + String(DHT11::getHumidity()) + "%");
+    }
 
     Util::encodeAndSendJsonData(NAME, VER);
 

@@ -3,8 +3,9 @@
 
 #include <Arduino.h>
 
-class Util{
-public:
+class Util
+{
+  public:
     static void encodeAndSendJsonData(String name, String ver);
 };
 
