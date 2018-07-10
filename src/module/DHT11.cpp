@@ -10,23 +10,28 @@ byte humidity = 0;
 
 SimpleDHT11 dht11;
 
-bool DHT11::readSensor(){
+bool DHT11::readSensor()
+{
     int err = SimpleDHTErrSuccess;
-    if((err = dht11.read(DHT11_PIN, &temperature, &humidity, NULL)) != SimpleDHTErrSuccess){
+    if ((err = dht11.read(DHT11_PIN, &temperature, &humidity, NULL)) != SimpleDHTErrSuccess)
+    {
         return false;
     }
     return true;
 }
 
-byte DHT11::getTemperature(){
+byte DHT11::getTemperature()
+{
     return temperature;
 }
 
-byte DHT11::getHumidity(){
+byte DHT11::getHumidity()
+{
     return humidity;
 }
 
-void DHT11::addJsonData(JsonArray &array){
+void DHT11::addJsonData(JsonArray &array)
+{
     JsonObject &data = array.createNestedObject();
     data["name"] = "DHT11";
     data["temperature"] = temperature;

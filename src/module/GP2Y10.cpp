@@ -46,7 +46,8 @@ float GP2Y10::readSensor()
     return dustDensity;
 }
 
-void GP2Y10::addJsonData(JsonArray &array){
+void GP2Y10::addJsonData(JsonArray &array)
+{
     JsonObject &data = array.createNestedObject();
     data["name"] = "GP2Y10";
     data["dustDensity"] = dustDensity;
