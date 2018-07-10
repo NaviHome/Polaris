@@ -7,7 +7,7 @@
 #include "util/Util.h"
 #include "config.h"
 
-const int LOOP_DELAY = 500;
+int loopDelay = 500;
 
 void setup()
 {
@@ -36,5 +36,5 @@ void loop()
 
     Util::encodeAndSendJsonData(NAME, VER);
 
-    delay(LOOP_DELAY);
+    delay(loopDelay);
 }
