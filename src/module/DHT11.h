@@ -1,5 +1,4 @@
-#ifndef DHT11_H
-#define DHT11_H
+#pragma once
 
 #include <ArduinoJson.h>
 
@@ -11,5 +10,3 @@ class DHT11
     static byte getHumidity();
     static void addJsonData(JsonArray &array);
 };
-
-#endif

@@ -1,12 +1,11 @@
 #pragma once
 
 #include <ArduinoJson.h>
-#include <Adafruit_BMP085.h>
 
-class BMP180
+class GP2Y10
 {
   public:
     static void init();
-    static Adafruit_BMP085 getSensor();
+    static float readSensor(); //unit mg/cm3
     static void addJsonData(JsonArray &array);
 };

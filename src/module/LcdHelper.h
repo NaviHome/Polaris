@@ -1,5 +1,4 @@
-#ifndef LCD_HELPER_H
-#define LCD_HELPER_H
+#pragma once
 
 #include "TFT_22_ILI9225.h"
 
@@ -10,5 +9,3 @@ public:
   static TFT_22_ILI9225 getDisplay();
   static void setDefalutValue(bool force = false);
 };
-
-#endif

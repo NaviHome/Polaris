@@ -3,6 +3,7 @@
 #include "module/DHT11.h"
 #include "module/LcdHelper.h"
 #include "module/BMP180.h"
+#include "module/GP2Y10.h"
 #include "util/Util.h"
 #include "config.h"
 
@@ -13,6 +14,7 @@ void setup()
     Serial.begin(115200);
     LcdHelper::init();
     BMP180::init();
+    GP2Y10::init();
 }
 
 void loop()

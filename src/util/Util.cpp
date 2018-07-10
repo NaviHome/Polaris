@@ -2,6 +2,7 @@
 #include "Util.h"
 #include "module/BMP180.h"
 #include "module/DHT11.h"
+#include "module/GP2Y10.h"
 
 void Util::encodeAndSendJsonData(String name, String ver)
 {
@@ -14,6 +15,7 @@ void Util::encodeAndSendJsonData(String name, String ver)
     JsonArray &sensorData = root.createNestedArray("sensors");
     BMP180::addJsonData(sensorData);
     DHT11::addJsonData(sensorData);
+	GP2Y10::addJsonData(sensorData);
 
     root.printTo(Serial);
     Serial.println();

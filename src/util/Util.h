@@ -1,5 +1,4 @@
-#ifndef UTIL_H
-#define UTIL_H
+#pragma once
 
 #include <Arduino.h>
 
@@ -9,5 +8,3 @@ class Util
     static void encodeAndSendJsonData(String name, String ver);
     static String getUptime();
 };
-
-#endif
