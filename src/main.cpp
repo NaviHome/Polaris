@@ -31,8 +31,10 @@ void loop()
     display.drawText(10, 70, "DigitalTemp: " + String(DHT11::getTemperature()) + " *C");
     display.drawText(10, 80, "Humidity: " + String(DHT11::getHumidity()) + "%");
 
-    display.drawText(10, 100, "LoopTime: " + String(millis() - startTime) + "ms   ");
-    display.drawText(10, 110, "Uptime: " + Util::getUptime() + "  ");
+    display.drawText(10, 100, "DustDensity: " + String((GP2Y10::getCalcVoltage() > 3.5) ? ">" : "") + String(GP2Y10::getDustDensity()) + " mg/cm3");
+
+    display.drawText(10, 120, "LoopTime: " + String(millis() - startTime) + " ms   ");
+    display.drawText(10, 130, "Uptime: " + Util::getUptime() + "  ");
 
     Util::encodeAndSendJsonData(NAME, VER);
 

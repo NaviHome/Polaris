@@ -1,9 +1,16 @@
 #include <Arduino.h>
-#include <ArduinoJson.h>
-#include "GP2Y10.h"
 
-int ledPin = 2;
+/*
+Standalone Sketch to use with a Arduino UNO and a
+Sharp Optical Dust Sensor GP2Y1010AU0F
+/**user define**/
+//Connect Vo of dust sensor Vo to Arduino A0 pin int ledPin = 2;
+//Connect LED(3pin) of dust sensor to Arduino D2 pin
+
+/**system define**/
+
 int voutPin = A0;
+int ledPin = 2;
 
 int samplingTime = 280;
 int deltaTime = 40;
@@ -12,13 +19,16 @@ int voMeasured = 0;
 float calcVoltage = 0;
 float dustDensity = 0;
 
-void GP2Y10::init()
+void setup()
 {
+
+    Serial.begin(9600);
     pinMode(ledPin, OUTPUT);
 }
 
-float GP2Y10::getDustDensity()
+void loop()
 {
+
     digitalWrite(ledPin, LOW); // power on the LED
     delayMicroseconds(samplingTime);
 
@@ -43,18 +53,22 @@ float GP2Y10::getDustDensity()
         dustDensity = 0;
     }
 
-    return dustDensity;
-}
+    Serial.print("Raw Signal Value (0-1023): ");
+    Serial.print(voMeasured);
 
-float GP2Y10::getCalcVoltage(){
-    return calcVoltage;
-}
+    Serial.print(" - Voltage: ");
+    Serial.print(calcVoltage);
+    Serial.print("V");
 
-void GP2Y10::addJsonData(JsonArray &array)
-{
-    JsonObject &data = array.createNestedObject();
-    data["name"] = "GP2Y10";
-    data["dustDensity"] = dustDensity;
-    data["calcVoltage"] = calcVoltage;
-    data["voMeasured"] = voMeasured;
+    Serial.print(" - Dust Density: ");
+
+    if (calcVoltage > 3.5)
+    {
+        Serial.print(">"); // unit: mg/m3
+    }
+
+    Serial.print(dustDensity);
+    Serial.println(" mg/m3");
+
+    delay(1000);
 }

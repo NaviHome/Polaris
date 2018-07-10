@@ -39,7 +39,7 @@ void LcdHelper::setDefalutValue(bool force = false)
         display.setFont(Terminal12x16);
         display.drawText(70, 60, NAME, COLOR_LIGHTBLUE);
         display.setFont(Terminal11x16);
-        display.drawText(83, 85, VER);
+        display.drawText(85, 85, VER);
         delay(3000);
         display.clear();
 
