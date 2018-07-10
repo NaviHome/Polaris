@@ -1,6 +1,3 @@
-[submodule "lib/LiquidCrystal_I2C"]
-	path = lib/LiquidCrystal_I2C
-	url = https://github.com/fdebrabander/Arduino-LiquidCrystal-I2C-library.git
 [submodule "lib/BMP180"]
 	path = lib/BMP180
 	url = https://github.com/adafruit/Adafruit-BMP085-Library.git
@@ -10,3 +7,6 @@
 [submodule "lib/SimpleDHT"]
 	path = lib/SimpleDHT
 	url = https://github.com/winlinvip/SimpleDHT.git
+[submodule "lib/TFT_ILI9225"]
+	path = lib/TFT_ILI9225
+	url = https://github.com/Nkawu/TFT_22_ILI9225.git

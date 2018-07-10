@@ -1,44 +1,37 @@
 #include <Arduino.h>
 #include <ArduinoJson.h>
 #include "module/DHT11.h"
-//#include "module/LcdHelper.h"
+#include "module/LcdHelper.h"
 #include "module/BMP180.h"
 #include "util/Util.h"
-
-const String NAME = "Polaris";
-const String VER = "0.2.0";
+#include "config.h"
 
 const int LOOP_DELAY = 500;
 
 void setup()
 {
     Serial.begin(115200);
-    pinMode(13, OUTPUT); //led on board
-    digitalWrite(13, HIGH);
-
-    /*LcdHelper::init();
-    LcdHelper::printFromStart(NAME + " " + VER);
-    LcdHelper::printSecondLine("Now loading...");
-    delay(LOOP_DELAY * 2);
-    LcdHelper::clear();
-    digitalWrite(13, LOW);*/
-
+    LcdHelper::init();
     BMP180::init();
 }
 
 void loop()
 {
     long startTime = millis();
-    //digitalWrite(13, HIGH); //one loop
+    
+    LcdHelper::setDefalutValue();
 
-    //LcdHelper::printFromStart(String(BMP180::getSensor().readTemperature()) + "C/" + String(BMP180::getSensor().readPressure()) + "Pa");
+    TFT_22_ILI9225 display = LcdHelper::getDisplay();
+    display.drawText(10, 40, "Temperature: " + String(BMP180::getSensor().readTemperature()) + " *C");
+    display.drawText(10, 50, "Pressure: " + String(BMP180::getSensor().readPressure()) + " Pa");
 
     DHT11::readSensor();
-    //LcdHelper::printSecondLine(String(DHT11::getTemperature()) + "C / " + String(DHT11::getHumidity()) + "% " + String(millis() - startTime) + "ms");
+    display.drawText(10, 70, "DigitalTemp: " + String(DHT11::getTemperature()) + " *C");
+    display.drawText(10, 80, "Humidiity: " + String(DHT11::getHumidity()) + "%");
+    
+    display.drawText(10, 100, "LoopTime: " + String(millis() - startTime) + "ms");
 
     Util::encodeAndSendJsonData(NAME, VER);
 
-    delay(LOOP_DELAY / 2);
-    //digitalWrite(13, LOW);
-    delay(LOOP_DELAY / 2);
+    delay(LOOP_DELAY);
 }

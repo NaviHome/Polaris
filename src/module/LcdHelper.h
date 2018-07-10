@@ -1,16 +1,14 @@
 #ifndef LCD_HELPER_H
 #define LCD_HELPER_H
 
-#include <LiquidCrystal_I2C.h>
+#include "TFT_22_ILI9225.h"
 
 class LcdHelper
 {
 public:
   static void init();
-  static LiquidCrystal_I2C getLcd();
-  static void printFromStart(String str);
-  static void printSecondLine(String str);
-  static void clear();
+  static TFT_22_ILI9225 getDisplay();
+  static void setDefalutValue(bool force = false);
 };
 
 #endif
