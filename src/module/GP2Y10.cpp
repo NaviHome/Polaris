@@ -2,6 +2,8 @@
 #include <ArduinoJson.h>
 #include "GP2Y10.h"
 
+#define DENSITY_HISTROY_COUNT 10
+
 int ledPin = 2;
 int voutPin = A0;
 
@@ -13,7 +15,7 @@ float calcVoltage = 0;
 float dustDensity = 0;
 float dustDensityAverage = 0;
 
-float dustDensityHistory[10];
+float dustDensityHistory[DENSITY_HISTROY_COUNT];
 
 void GP2Y10::init()
 {
@@ -55,18 +57,18 @@ float GP2Y10::getDustDensityNow()
 
 float GP2Y10::getDustDensity()
 {
-    for (int i = 0; i < 9; i++)
+    for (int i = 0; i < DENSITY_HISTROY_COUNT - 1; i++)
     {
         dustDensityHistory[i] = dustDensityHistory[i + 1];
     }
-    dustDensityHistory[9] = getDustDensityNow();
+    dustDensityHistory[DENSITY_HISTROY_COUNT - 1] = getDustDensityNow();
 
     float total = 0;
-    for (int i = 0; i < 10; i++)
+    for (int i = 0; i < DENSITY_HISTROY_COUNT; i++)
     {
         total += dustDensityHistory[i];
     }
-    dustDensityAverage = total / 10.00;
+    dustDensityAverage = total / DENSITY_HISTROY_COUNT;
     return dustDensityAverage;
 }
 
