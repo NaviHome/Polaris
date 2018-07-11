@@ -11,13 +11,20 @@ int sleepTime = 9680;
 int voMeasured = 0;
 float calcVoltage = 0;
 float dustDensity = 0;
+float dustDensityAverage = 0;
+
+float dustDensityHistory[10];
 
 void GP2Y10::init()
 {
     pinMode(ledPin, OUTPUT);
+    for (int i = 0; i < 10; i++)
+    {
+        dustDensityHistory[i] = 0;
+    }
 }
 
-float GP2Y10::getDustDensity()
+float GP2Y10::getDustDensityNow()
 {
     digitalWrite(ledPin, LOW); // power on the LED
     delayMicroseconds(samplingTime);
@@ -43,10 +50,28 @@ float GP2Y10::getDustDensity()
         dustDensity = 0;
     }
 
-    return dustDensity;
+    return dustDensity * 1000.00;
 }
 
-float GP2Y10::getCalcVoltage(){
+float GP2Y10::getDustDensity()
+{
+    for (int i = 0; i < 9; i++)
+    {
+        dustDensityHistory[i] = dustDensityHistory[i + 1];
+    }
+    dustDensityHistory[9] = getDustDensityNow();
+
+    float total = 0;
+    for (int i = 0; i < 10; i++)
+    {
+        total += dustDensityHistory[i];
+    }
+    dustDensityAverage = total / 10.00;
+    return dustDensityAverage;
+}
+
+float GP2Y10::getCalcVoltage()
+{
     return calcVoltage;
 }
 
@@ -54,7 +79,8 @@ void GP2Y10::addJsonData(JsonArray &array)
 {
     JsonObject &data = array.createNestedObject();
     data["name"] = "GP2Y10";
-    data["dustDensity"] = dustDensity;
+    data["density"] = dustDensity;
+    data["densityAvg"] = dustDensityAverage;
     data["calcVoltage"] = calcVoltage;
     data["voMeasured"] = voMeasured;
 }
