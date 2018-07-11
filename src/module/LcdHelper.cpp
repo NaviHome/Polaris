@@ -34,7 +34,7 @@ void LcdHelper::setDefalutValue(bool force = false)
 
         display.drawRectangle(0, 0, display.maxX() - 1, display.maxY() - 1, COLOR_ORANGE);
         display.setFont(Terminal6x8);
-        display.drawText(10, 10, "Now loading...", COLOR_GRAY);
+        //display.drawText(10, 10, "Now loading...", COLOR_GRAY);
         display.drawText(10, display.maxY() - 12, COPYRIGHT, COLOR_GRAY);
         display.setFont(Terminal12x16);
         display.drawText(70, 60, NAME, COLOR_LIGHTBLUE);

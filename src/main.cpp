@@ -7,7 +7,7 @@
 #include "util/Util.h"
 #include "config.h"
 
-int loopDelay = 800;
+int loopDelay = 500;
 
 void setup()
 {
@@ -36,7 +36,7 @@ void loop()
     display.drawText(10, 120, "LoopTime: " + String(millis() - startTime) + " ms   ");
     display.drawText(10, 130, "Uptime: " + Util::getUptime() + "  ");
 
-    Util::encodeAndSendJsonData(NAME, VER);
+    Util::encodeAndSendJsonData();
 
     delay(loopDelay);
 }
