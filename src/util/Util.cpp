@@ -1,26 +1,5 @@
-#include <ArduinoJson.h>
+#include <inttypes.h>
 #include "Util.h"
-#include "module/BMP180.h"
-#include "module/DHT11.h"
-#include "module/GP2Y10.h"
-#include "config.h"
-
-void Util::encodeAndSendJsonData()
-{
-	DynamicJsonBuffer jsonBuffer;
-	JsonObject &root = jsonBuffer.createObject();
-	root["fw_name"] = NAME;
-	root["fw_ver"] = VER;
-	root["uptime"] = millis();
-
-	JsonArray &sensorData = root.createNestedArray("sensors");
-	BMP180::addJsonData(sensorData);
-	DHT11::addJsonData(sensorData);
-	GP2Y10::addJsonData(sensorData);
-
-	root.printTo(Serial);
-	Serial.println();
-}
 
 String Util::getUptime()
 {
@@ -50,4 +29,13 @@ String Util::getUptime()
 								  : "") +
 					(String(seconds) + " s");
 	return uptime;
+}
+
+uint8_t *Util::copyOfRange(uint8_t *original, int from, int to){
+	int newLength = to - from;
+	uint8_t copy[newLength];
+	for(int i = from; i < to; i++){
+		copy[i] = original[i];
+	}
+	return copy;
 }

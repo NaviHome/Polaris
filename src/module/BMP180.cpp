@@ -1,6 +1,5 @@
 #include "BMP180.h"
 #include <Adafruit_BMP085.h>
-#include <ArduinoJson.h>
 
 Adafruit_BMP085 bmp;
 
@@ -14,12 +13,10 @@ Adafruit_BMP085 BMP180::getSensor()
     return bmp;
 }
 
-void BMP180::addJsonData(JsonArray &array)
+void BMP180::writeDataToStream(BinaryStream &stream)
 {
-    JsonObject &data = array.createNestedObject();
-    data["name"] = "BMP180";
-    data["temperature"] = bmp.readTemperature();
-    data["pressure"] = bmp.readPressure();
-    data["altitude"] = bmp.readAltitude();
-    data["seaLevelPressure"] = bmp.readSealevelPressure();
+    stream.putFloat(bmp.readTemperature());
+    stream.putInt(bmp.readPressure());
+    stream.putFloat(bmp.readAltitude());
+    stream.putInt(bmp.readSealevelPressure());
 }

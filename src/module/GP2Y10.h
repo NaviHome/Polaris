@@ -1,6 +1,6 @@
 #pragma once
 
-#include <ArduinoJson.h>
+#include "util/BinaryStream.h"
 
 class GP2Y10
 {
@@ -9,5 +9,5 @@ public:
   static float getDustDensityNow();
   static float getDustDensity();
   static float getCalcVoltage();
-  static void addJsonData(JsonArray &array);
+  static void writeDataToStream(BinaryStream &stream);
 };

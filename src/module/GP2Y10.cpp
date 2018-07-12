@@ -1,11 +1,10 @@
 #include <Arduino.h>
-#include <ArduinoJson.h>
 #include "GP2Y10.h"
 
 #define DENSITY_HISTROY_COUNT 10
 
-int ledPin = 2;
-int voutPin = A0;
+#define LED_PIN 2
+#define VOUT_PIN A0
 
 int samplingTime = 280;
 int deltaTime = 40;
@@ -19,7 +18,7 @@ float dustDensityHistory[DENSITY_HISTROY_COUNT];
 
 void GP2Y10::init()
 {
-    pinMode(ledPin, OUTPUT);
+    pinMode(LED_PIN, OUTPUT);
     for (int i = 0; i < 10; i++)
     {
         dustDensityHistory[i] = 0;
@@ -28,13 +27,13 @@ void GP2Y10::init()
 
 float GP2Y10::getDustDensityNow()
 {
-    digitalWrite(ledPin, LOW); // power on the LED
+    digitalWrite(LED_PIN, LOW); // power on the LED
     delayMicroseconds(samplingTime);
 
-    voMeasured = analogRead(voutPin); // read the dust value
+    voMeasured = analogRead(VOUT_PIN); // read the dust value
 
     delayMicroseconds(deltaTime);
-    digitalWrite(ledPin, HIGH); // turn the LED off
+    digitalWrite(LED_PIN, HIGH); // turn the LED off
     delayMicroseconds(sleepTime);
 
     // 0 - 5V mapped to 0 - 1023 integer values
@@ -77,12 +76,10 @@ float GP2Y10::getCalcVoltage()
     return calcVoltage;
 }
 
-void GP2Y10::addJsonData(JsonArray &array)
+void GP2Y10::writeDataToStream(BinaryStream &stream)
 {
-    JsonObject &data = array.createNestedObject();
-    data["name"] = "GP2Y10";
-    data["density"] = dustDensity;
-    data["densityAvg"] = dustDensityAverage;
-    data["calcVoltage"] = calcVoltage;
-    data["voMeasured"] = voMeasured;
+    stream.putFloat(dustDensity);
+    stream.putFloat(dustDensityAverage);
+    stream.putFloat(calcVoltage);
+    stream.putInt(voMeasured);
 }

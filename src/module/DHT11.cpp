@@ -1,5 +1,4 @@
 #include <Arduino.h>
-#include <ArduinoJson.h>
 #include <SimpleDHT.h>
 #include "DHT11.h"
 
@@ -30,10 +29,8 @@ byte DHT11::getHumidity()
     return humidity;
 }
 
-void DHT11::addJsonData(JsonArray &array)
+void DHT11::writeDataToStream(BinaryStream &stream)
 {
-    JsonObject &data = array.createNestedObject();
-    data["name"] = "DHT11";
-    data["temperature"] = temperature;
-    data["humidity"] = humidity;
+    stream.putByte(temperature);
+    stream.putByte(humidity);
 }

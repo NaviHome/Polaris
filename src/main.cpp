@@ -1,10 +1,10 @@
 #include <Arduino.h>
-#include <ArduinoJson.h>
 #include "module/DHT11.h"
 #include "module/LcdHelper.h"
 #include "module/BMP180.h"
 #include "module/GP2Y10.h"
 #include "util/Util.h"
+#include "util/DataManager.h"
 #include "config.h"
 
 int loopDelay = 500;
@@ -12,6 +12,7 @@ int loopDelay = 500;
 void setup()
 {
     Serial.begin(115200);
+    DataManager::init();
     LcdHelper::init();
     BMP180::init();
     GP2Y10::init();
@@ -36,7 +37,7 @@ void loop()
     display.drawText(10, 120, "LoopTime: " + String(millis() - startTime) + " ms   ");
     display.drawText(10, 130, "Uptime: " + Util::getUptime() + "  ");
 
-    Util::encodeAndSendJsonData();
+    DataManager::update();
 
     delay(loopDelay);
 }
