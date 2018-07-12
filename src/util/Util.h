@@ -5,6 +5,5 @@
 class Util
 {
 public:
-  static void encodeAndSendJsonData();
   static String getUptime();
 };

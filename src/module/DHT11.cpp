@@ -3,17 +3,17 @@
 #include <SimpleDHT.h>
 #include "DHT11.h"
 
-const int DHT11_PIN = 4;
+#define DHT11_PIN 4
 
-byte temperature = 0;
-byte humidity = 0;
+byte DHT11::temperature = 0;
+byte DHT11::humidity = 0;
 
 SimpleDHT11 dht11;
 
 bool DHT11::readSensor()
 {
     int err = SimpleDHTErrSuccess;
-    if ((err = dht11.read(DHT11_PIN, &temperature, &humidity, NULL)) != SimpleDHTErrSuccess)
+    if ((err = dht11.read(DHT11_PIN, &DHT11::temperature, &DHT11::humidity, NULL)) != SimpleDHTErrSuccess)
     {
         return false;
     }
@@ -22,18 +22,18 @@ bool DHT11::readSensor()
 
 byte DHT11::getTemperature()
 {
-    return temperature;
+    return DHT11::temperature;
 }
 
 byte DHT11::getHumidity()
 {
-    return humidity;
+    return DHT11::humidity;
 }
 
 void DHT11::addJsonData(JsonArray &array)
 {
     JsonObject &data = array.createNestedObject();
     data["name"] = "DHT11";
-    data["temperature"] = temperature;
-    data["humidity"] = humidity;
+    data["temp"] = DHT11::temperature;
+    data["humi"] = DHT11::humidity;
 }

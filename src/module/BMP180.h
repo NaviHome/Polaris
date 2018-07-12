@@ -5,8 +5,14 @@
 
 class BMP180
 {
+private:
+  static float temperature;
+  static long pressure;
+
 public:
   static void init();
-  static Adafruit_BMP085 getSensor();
+  static void readSensor();
+  static float getTemperature();
+  static long getPressure();
   static void addJsonData(JsonArray &array);
 };

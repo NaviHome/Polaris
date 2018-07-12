@@ -2,87 +2,89 @@
 #include <ArduinoJson.h>
 #include "GP2Y10.h"
 
-#define DENSITY_HISTROY_COUNT 10
+#define LED_PIN 2
+#define VOUT_PIN A0
 
-int ledPin = 2;
-int voutPin = A0;
+#define SAMPLEING_TIME 280
+#define DELTA_TIME 40
+#define SLEEP_TIME 9680
 
-int samplingTime = 280;
-int deltaTime = 40;
-int sleepTime = 9680;
-int voMeasured = 0;
-float calcVoltage = 0;
-float dustDensity = 0;
-float dustDensityAverage = 0;
+int GP2Y10::voMeasured = 0;
+float GP2Y10::calcVoltage = 0;
+float GP2Y10::dustDensity = 0;
+float GP2Y10::dustDensityAverage = 0;
 
-float dustDensityHistory[DENSITY_HISTROY_COUNT];
+float GP2Y10::dustDensityHistory[DENSITY_HISTROY_COUNT];
 
 void GP2Y10::init()
 {
-    pinMode(ledPin, OUTPUT);
+    pinMode(LED_PIN, OUTPUT);
     for (int i = 0; i < 10; i++)
     {
-        dustDensityHistory[i] = 0;
+        GP2Y10::dustDensityHistory[i] = 0;
     }
 }
 
 float GP2Y10::getDustDensityNow()
 {
-    digitalWrite(ledPin, LOW); // power on the LED
-    delayMicroseconds(samplingTime);
+    digitalWrite(LED_PIN, LOW); // power on the LED
+    delayMicroseconds(SAMPLEING_TIME);
 
-    voMeasured = analogRead(voutPin); // read the dust value
+    GP2Y10::voMeasured = analogRead(VOUT_PIN); // read the dust value
 
-    delayMicroseconds(deltaTime);
-    digitalWrite(ledPin, HIGH); // turn the LED off
-    delayMicroseconds(sleepTime);
+    delayMicroseconds(DELTA_TIME);
+    digitalWrite(LED_PIN, HIGH); // turn the LED off
+    delayMicroseconds(SLEEP_TIME);
 
     // 0 - 5V mapped to 0 - 1023 integer values
     // recover voltage
-    calcVoltage = (float)voMeasured * (5.0 / 1024.0);
+    GP2Y10::calcVoltage = (float)GP2Y10::voMeasured * (5.0 / 1024.0);
 
     // linear eqaution taken from http://www.howmuchsnow.com/arduino/airquality/
     // Chris Nafis (c) 2012
-    if (calcVoltage >= 0.6)
+    if (GP2Y10::calcVoltage >= 0.6)
     {
-        dustDensity = 0.17 * calcVoltage - 0.1;
+        GP2Y10::dustDensity = 0.17 * GP2Y10::calcVoltage - 0.1;
     }
     else
     {
-        dustDensity = 0;
+        GP2Y10::dustDensity = 0;
     }
 
-    return dustDensity * 1000.00;
+    return GP2Y10::dustDensity * 1000.00;
 }
 
-float GP2Y10::getDustDensity()
+void GP2Y10::readSensor()
 {
     for (int i = 0; i < DENSITY_HISTROY_COUNT - 1; i++)
     {
-        dustDensityHistory[i] = dustDensityHistory[i + 1];
+        GP2Y10::dustDensityHistory[i] = GP2Y10::dustDensityHistory[i + 1];
     }
-    dustDensityHistory[DENSITY_HISTROY_COUNT - 1] = getDustDensityNow();
+    GP2Y10::dustDensityHistory[DENSITY_HISTROY_COUNT - 1] = getDustDensityNow();
 
     float total = 0;
     for (int i = 0; i < DENSITY_HISTROY_COUNT; i++)
     {
-        total += dustDensityHistory[i];
+        total += GP2Y10::dustDensityHistory[i];
     }
-    dustDensityAverage = total / DENSITY_HISTROY_COUNT;
-    return dustDensityAverage;
+    GP2Y10::dustDensityAverage = total / DENSITY_HISTROY_COUNT;
+}
+
+float GP2Y10::getDustDensity(){
+    return GP2Y10::dustDensityAverage;
 }
 
 float GP2Y10::getCalcVoltage()
 {
-    return calcVoltage;
+    return GP2Y10::calcVoltage;
 }
 
 void GP2Y10::addJsonData(JsonArray &array)
 {
     JsonObject &data = array.createNestedObject();
     data["name"] = "GP2Y10";
-    data["density"] = dustDensity;
-    data["densityAvg"] = dustDensityAverage;
-    data["calcVoltage"] = calcVoltage;
-    data["voMeasured"] = voMeasured;
+    data["dens"] = GP2Y10::dustDensity;
+    data["davg"] = GP2Y10::dustDensityAverage;
+    data["calv"] = GP2Y10::calcVoltage;
+    data["meav"] = GP2Y10::voMeasured;
 }

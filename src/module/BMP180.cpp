@@ -4,22 +4,34 @@
 
 Adafruit_BMP085 bmp;
 
+float BMP180::temperature = 0;
+long BMP180::pressure = 0;
+
 void BMP180::init()
 {
     bmp.begin();
 }
 
-Adafruit_BMP085 BMP180::getSensor()
+void BMP180::readSensor()
 {
-    return bmp;
+    BMP180::temperature = bmp.readTemperature();
+    BMP180::pressure = bmp.readPressure();
+}
+
+float BMP180::getTemperature()
+{
+    return BMP180::temperature;
+}
+
+long BMP180::getPressure()
+{
+    return BMP180::pressure;
 }
 
 void BMP180::addJsonData(JsonArray &array)
 {
     JsonObject &data = array.createNestedObject();
     data["name"] = "BMP180";
-    data["temperature"] = bmp.readTemperature();
-    data["pressure"] = bmp.readPressure();
-    data["altitude"] = bmp.readAltitude();
-    data["seaLevelPressure"] = bmp.readSealevelPressure();
+    data["temp"] = BMP180::temperature;
+    data["pres"] = BMP180::pressure;
 }
