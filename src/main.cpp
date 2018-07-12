@@ -5,16 +5,13 @@
 #include "module/GP2Y10.h"
 #include "util/Util.h"
 #include "util/DataManager.h"
-#include "config.h"
 
 int loopDelay = 500;
 
 void setup()
 {
     Serial.begin(115200);
-    LcdHelper::init();
-    BMP180::init();
-    GP2Y10::init();
+    DataManager::init();
 }
 
 void loop()
@@ -22,9 +19,7 @@ void loop()
     long startTime = millis();
 
     LcdHelper::setDefalutValue();
-    BMP180::readSensor();
-    DHT11::readSensor();
-    GP2Y10::readSensor();
+    DataManager::update();
 
     TFT_22_ILI9225 display = LcdHelper::getDisplay();
     display.drawText(10, 40, "Temperature: " + String(BMP180::getTemperature()) + " *C");
@@ -37,8 +32,6 @@ void loop()
 
     display.drawText(10, 120, "LoopTime: " + String(millis() - startTime) + " ms   ");
     display.drawText(10, 130, "Uptime: " + Util::getUptime() + "  ");
-
-    DataManager::update();
 
     delay(loopDelay);
 }

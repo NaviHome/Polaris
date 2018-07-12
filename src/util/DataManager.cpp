@@ -4,6 +4,7 @@
 #include "module/BMP180.h"
 #include "module/DHT11.h"
 #include "module/GP2Y10.h"
+#include "module/LcdHelper.h"
 #include "config.h"
 
 #define ESP_RX 5
@@ -16,10 +17,17 @@ SoftwareSerial esp(ESP_RX, ESP_TX); //RX TX
 void DataManager::init()
 {
     esp.begin(ESP_BAUDRATE);
+    LcdHelper::init();
+    BMP180::init();
+    GP2Y10::init();
 }
 
 void DataManager::update()
 {
+    BMP180::readSensor();
+    DHT11::readSensor();
+    GP2Y10::readSensor();
+
     DynamicJsonBuffer jsonBuffer;
     JsonObject &root = jsonBuffer.createObject();
     root["fw_n"] = NAME;
