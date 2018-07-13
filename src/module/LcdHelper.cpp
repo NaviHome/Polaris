@@ -1,7 +1,7 @@
 #include <SPI.h>
 #include "TFT_22_ILI9225.h"
 #include "LcdHelper.h"
-#include "config.h"
+#include "../config.h"
 
 #define TFT_RST 8
 #define TFT_RS 9
