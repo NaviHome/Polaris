@@ -18,7 +18,7 @@ The firmware of the main controller of [NaviHome](https://github.com/NaviHome) b
 
 ## Compatible Boards
 
-* [Arduino UNO](https://store.arduino.cc/arduino-uno-rev3) - *Tested*
+* [Arduino UNO](https://store.arduino.cc/arduino-uno-rev3) - *Default*
 * [Arduino Mega 2560](https://store.arduino.cc/arduino-mega-2560-rev3) - *Tested*
 * [Arduino Nano](https://store.arduino.cc/arduino-nano) - *Tested*
   * Change `BOARD_NANO` to `true` in `config.h`
@@ -39,18 +39,21 @@ The firmware of the main controller of [NaviHome](https://github.com/NaviHome) b
   * ~~Sea Level Pressure~~ - *Not available, API included*
 * DHT11
   * Temperature (1°C)
-  * Humidity (1%)
+  * Relative Humidity (1%)
 * GP2Y10(10/14)
   * Dust Density (1 ug/m3)
 
 ## Step to Build
 
-* Open Project in PlatformIO IDE
-* Change `DEBUG` to `false` in `config.h` when debuging WiFi Module
-* Modify `PIN layout configuration` in `config.h` after you changed it
+* Open Project in `PlatformIO IDE`
+* Change `DEBUG` to `false` in `config.h` when debugging WiFi Module
 * Connect the board
 * Execute `PlatformIO: Upload` to flash the firmware
 * Enjoy :)
+
+---------------
+
+* Remember to modify `PIN layout configurations` in `config.h` if you changed them
 
 ## Serial Command Line
 
@@ -59,12 +62,12 @@ The firmware of the main controller of [NaviHome](https://github.com/NaviHome) b
 
 ```C++
     /*
-    command types:
+    commands:
         0: WiFi Module Information
             {"c":0,"fn":"Chronos","fv":"0.1.0"}
             fn: Firmware Name
             fv: Firmware Version
-        1: Re-init display
+        1: Re-init Display
             {"c":1}
         2: Update Time
             {"c":2,"t":"2018-07-14 18:09:23"}

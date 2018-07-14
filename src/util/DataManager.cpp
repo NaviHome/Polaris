@@ -71,12 +71,12 @@ void DataManager::update()
     JsonObject &command = jsonBuffer.parseObject(wifi);
 #endif
     /*
-    command types:
+    commands:
         0: WiFi Module Information
             {"c":0,"fn":"Chronos","fv":"0.1.0"}
             fn: Firmware Name
             fv: Firmware Version
-        1: Re-init display
+        1: Re-init Display
             {"c":1}
         2: Update Time
             {"c":2,"t":"2018-07-14 18:09:23"}
