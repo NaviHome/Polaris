@@ -1,5 +1,9 @@
 # Polaris
 
+[![License](https://img.shields.io/github/license/NaviHome/Polaris.svg)](https://github.com/NaviHome/Polaris/blob/master/LICENSE)
+![Version](https://img.shields.io/badge/version-0.4.3--alpha-orange.svg)
+[![Build Status](https://travis-ci.org/NaviHome/Polaris.svg?branch=master)](https://travis-ci.org/NaviHome/Polaris)
+
 The firmware of the main controller of [NaviHome](https://github.com/NaviHome) by [iTX Technologies](https://github.com/iTXTech).
 
 ## Requirements
