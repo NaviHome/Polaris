@@ -37,6 +37,7 @@ void DataManager::init()
     Serial.begin(SERIAL_BAUDRATE);
     Serial.setTimeout(SERIAL_READ_TIMEOUT);
     wifi.begin(WIFI_MODULE_BAUDRATE);
+    wifi.setTimeout(SERIAL_READ_TIMEOUT);
     LcdHelper::init();
     BMP180::init();
     GP2Y10::init();
@@ -62,7 +63,7 @@ void DataManager::update()
     char buffer[200];
     root.printTo(buffer);
     Serial.println(buffer);
-    wifi.println(buffer);
+    //wifi.println(buffer);
 
     jsonBuffer.clear();
 #if DEBUG
@@ -88,7 +89,7 @@ void DataManager::update()
         switch (cmd)
         {
         case CMD_WIFI_MODULE_INFO:
-            wifiModuleFirmwareInfo = String(command["fn"].asString()) + " " + String(command["fw"].asString());
+            wifiModuleFirmwareInfo = String(command["fn"].asString()) + " " + String(command["fv"].asString());
             LcdHelper::printHeader();
             break;
         case CMD_REINIT_DISPLAY:
