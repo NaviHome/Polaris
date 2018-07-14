@@ -31,7 +31,7 @@ long BMP180::getPressure()
 void BMP180::addJsonData(JsonArray &array)
 {
     JsonObject &data = array.createNestedObject();
-    data["name"] = "BMP180";
-    data["temp"] = BMP180::temperature;
-    data["pres"] = BMP180::pressure;
+    data["n"] = "BMP180";
+    data["t"] = BMP180::temperature;
+    data["p"] = BMP180::pressure;
 }

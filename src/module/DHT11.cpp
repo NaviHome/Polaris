@@ -33,7 +33,7 @@ byte DHT11::getHumidity()
 void DHT11::addJsonData(JsonArray &array)
 {
     JsonObject &data = array.createNestedObject();
-    data["name"] = "DHT11";
-    data["temp"] = DHT11::temperature;
-    data["humi"] = DHT11::humidity;
+    data["n"] = "DHT11";
+    data["t"] = DHT11::temperature;
+    data["h"] = DHT11::humidity;
 }

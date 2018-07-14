@@ -1,6 +1,7 @@
 #include <SPI.h>
 #include "TFT_22_ILI9225.h"
 #include "LcdHelper.h"
+#include "../util/DataManager.h"
 #include "../config.h"
 
 #define TFT_RST 8
@@ -30,6 +31,7 @@ void LcdHelper::setDefalutValue(bool force = false)
 {
     if (force or !initiated)
     {
+        display.clear();
         display.setOrientation(3);
 
         display.drawRectangle(0, 0, display.maxX() - 1, display.maxY() - 1, COLOR_ORANGE);
@@ -44,9 +46,15 @@ void LcdHelper::setDefalutValue(bool force = false)
         display.clear();
 
         display.drawRectangle(0, 0, display.maxX() - 1, display.maxY() - 1, COLOR_GREEN);
-        display.setFont(Terminal6x8);
-        display.drawText(10, 10, NAME + " " + VER);
-        display.drawText(10, 20, COPYRIGHT);
+        printHeader();
         initiated = true;
     }
+}
+
+void LcdHelper::printHeader()
+{
+    display.setFont(Terminal6x8);
+    display.drawText(10, 10, NAME + " " + VER);
+    display.drawText(10, 20, DataManager::wifiModuleFirmwareInfo);
+    display.drawText(10, 30, COPYRIGHT);
 }

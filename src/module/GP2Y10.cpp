@@ -82,9 +82,9 @@ float GP2Y10::getCalcVoltage()
 void GP2Y10::addJsonData(JsonArray &array)
 {
     JsonObject &data = array.createNestedObject();
-    data["name"] = "GP2Y10";
-    data["dens"] = GP2Y10::dustDensity;
-    data["davg"] = GP2Y10::dustDensityAverage;
-    data["calv"] = GP2Y10::calcVoltage;
-    data["meav"] = GP2Y10::voMeasured;
+    data["n"] = "GP2Y10";
+    data["d"] = GP2Y10::dustDensity;
+    data["a"] = GP2Y10::dustDensityAverage;
+    data["c"] = GP2Y10::calcVoltage;
+    data["m"] = GP2Y10::voMeasured;
 }

@@ -8,4 +8,5 @@ public:
   static void init();
   static TFT_22_ILI9225 getDisplay();
   static void setDefalutValue(bool force = false);
+  static void printHeader();
 };
