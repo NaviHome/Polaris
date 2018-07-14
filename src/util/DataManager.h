@@ -5,9 +5,8 @@
 class DataManager
 {
 public:
-  static unsigned long startTime;
+  static String timeNow;
   static String wifiModuleFirmwareInfo;
   static void init();
   static void update();
-  static unsigned long getTimeNow();
 };

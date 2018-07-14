@@ -9,13 +9,14 @@
 
 #define CMD_WIFI_MODULE_INFO 0
 #define CMD_REINIT_DISPLAY 1
+#define CMD_UPDATE_TIME 2
 
 #define ESP_RX 5
 #define ESP_TX 6
 
 #define ESP_BAUDRATE 115200
 
-unsigned long DataManager::startTime = 0;
+String DataManager::timeNow = "1970-1-1 00:00:00";
 String DataManager::wifiModuleFirmwareInfo = "UKN WM FW";
 
 SoftwareSerial esp(ESP_RX, ESP_TX); //RX TX
@@ -58,9 +59,11 @@ void DataManager::update()
     /*
     command types:
         0: WiFi Module Information
-            {"c":0,"fn":"Chronos","fw":"0.1.0","t":"1531558467"}
+            {"c":0,"fn":"Chronos","fv":"0.1.0"}
         1: Re-init display
             {"c":1}
+        2: Update Time
+            {"c":2, "t":"2018-07-14 18:09:23"}
     */
     if (command.containsKey("c"))
     {
@@ -68,17 +71,15 @@ void DataManager::update()
         switch (cmd)
         {
             case CMD_WIFI_MODULE_INFO:
-                startTime = command["t"];
                 wifiModuleFirmwareInfo = String(command["fn"].asString()) + " " + String(command["fw"].asString());
                 LcdHelper::printHeader();
                 break;
             case CMD_REINIT_DISPLAY:
                 LcdHelper::setDefalutValue(true);
                 break;
+            case CMD_UPDATE_TIME:
+                timeNow = String(command["t"].asString());
+                break;
         }
     }
-}
-
-unsigned long DataManager::getTimeNow(){
-    return startTime + millis() / 1000;
 }
