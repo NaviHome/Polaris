@@ -1,3 +1,19 @@
+/*
+ * Copyright (C) 2018 iTX Technologies
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 #include <ArduinoJson.h>
 #include <SoftwareSerial.h>
 #include "DataManager.h"
@@ -18,8 +34,8 @@ SoftwareSerial wifi(WIFI_MODULE_RX, WIFI_MODULE_TX); //RX TX
 
 void DataManager::init()
 {
-    Serial.begin(115200);
-    Serial.setTimeout(200);
+    Serial.begin(SERIAL_BAUDRATE);
+    Serial.setTimeout(SERIAL_READ_TIMEOUT);
     wifi.begin(WIFI_MODULE_BAUDRATE);
     LcdHelper::init();
     BMP180::init();
@@ -58,10 +74,13 @@ void DataManager::update()
     command types:
         0: WiFi Module Information
             {"c":0,"fn":"Chronos","fv":"0.1.0"}
+            fn: Firmware Name
+            fv: Firmware Version
         1: Re-init display
             {"c":1}
         2: Update Time
-            {"c":2, "t":"2018-07-14 18:09:23"}
+            {"c":2,"t":"2018-07-14 18:09:23"}
+            t: Current Time String
     */
     if (command.containsKey("c"))
     {
