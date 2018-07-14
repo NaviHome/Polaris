@@ -1,9 +1,7 @@
 #include <Arduino.h>
 #include <ArduinoJson.h>
 #include "GP2Y10.h"
-
-#define LED_PIN 2
-#define VOUT_PIN A0
+#include "../config.h"
 
 #define SAMPLEING_TIME 280
 #define DELTA_TIME 40

@@ -2,8 +2,7 @@
 #include <ArduinoJson.h>
 #include <SimpleDHT.h>
 #include "DHT11.h"
-
-#define DHT11_PIN 4
+#include "../config.h"
 
 byte DHT11::temperature = 0;
 byte DHT11::humidity = 0;

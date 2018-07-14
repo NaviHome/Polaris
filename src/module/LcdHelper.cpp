@@ -4,13 +4,6 @@
 #include "../util/DataManager.h"
 #include "../config.h"
 
-#define TFT_RST 8
-#define TFT_RS 9
-#define TFT_CS 10  // SS
-#define TFT_SDI 11 // MOSI
-#define TFT_CLK 13 // SCK
-#define TFT_LED 3  // 0 if wired to +5V directly
-
 #define TFT_DEFAULT_BRIGHTNESS 100 //default brightness
 
 TFT_22_ILI9225 display(TFT_RST, TFT_RS, TFT_CS, TFT_LED, TFT_DEFAULT_BRIGHTNESS);
@@ -34,6 +27,7 @@ void LcdHelper::setDefalutValue(bool force = false)
         display.clear();
         display.setOrientation(3);
 
+#if !BOARD_NANO
         display.drawRectangle(0, 0, display.maxX() - 1, display.maxY() - 1, COLOR_ORANGE);
         display.setFont(Terminal6x8);
         //display.drawText(10, 10, "Now loading...", COLOR_GRAY);
@@ -44,6 +38,7 @@ void LcdHelper::setDefalutValue(bool force = false)
         display.drawText(85, 85, VER);
         delay(3000);
         display.clear();
+#endif
 
         display.drawRectangle(0, 0, display.maxX() - 1, display.maxY() - 1, COLOR_GREEN);
         printHeader();

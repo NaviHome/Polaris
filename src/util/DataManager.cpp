@@ -11,21 +11,16 @@
 #define CMD_REINIT_DISPLAY 1
 #define CMD_UPDATE_TIME 2
 
-#define ESP_RX 5
-#define ESP_TX 6
-
-#define ESP_BAUDRATE 115200
-
 String DataManager::timeNow = "1970-1-1 00:00:00";
 String DataManager::wifiModuleFirmwareInfo = "UKN WM FW";
 
-SoftwareSerial esp(ESP_RX, ESP_TX); //RX TX
+SoftwareSerial wifi(WIFI_MODULE_RX, WIFI_MODULE_TX); //RX TX
 
 void DataManager::init()
 {
     Serial.begin(115200);
     Serial.setTimeout(200);
-    esp.begin(ESP_BAUDRATE);
+    wifi.begin(WIFI_MODULE_BAUDRATE);
     LcdHelper::init();
     BMP180::init();
     GP2Y10::init();
@@ -51,11 +46,14 @@ void DataManager::update()
     char buffer[200];
     root.printTo(buffer);
     Serial.println(buffer);
-    esp.println(buffer);
-    //delete[] buffer;
+    wifi.println(buffer);
 
     jsonBuffer.clear();
+#if DEBUG
     JsonObject &command = jsonBuffer.parseObject(Serial);
+#else
+    JsonObject &command = jsonBuffer.parseObject(wifi);
+#endif
     /*
     command types:
         0: WiFi Module Information
@@ -70,16 +68,16 @@ void DataManager::update()
         int cmd = command["c"];
         switch (cmd)
         {
-            case CMD_WIFI_MODULE_INFO:
-                wifiModuleFirmwareInfo = String(command["fn"].asString()) + " " + String(command["fw"].asString());
-                LcdHelper::printHeader();
-                break;
-            case CMD_REINIT_DISPLAY:
-                LcdHelper::setDefalutValue(true);
-                break;
-            case CMD_UPDATE_TIME:
-                timeNow = String(command["t"].asString());
-                break;
+        case CMD_WIFI_MODULE_INFO:
+            wifiModuleFirmwareInfo = String(command["fn"].asString()) + " " + String(command["fw"].asString());
+            LcdHelper::printHeader();
+            break;
+        case CMD_REINIT_DISPLAY:
+            LcdHelper::setDefalutValue(true);
+            break;
+        case CMD_UPDATE_TIME:
+            timeNow = String(command["t"].asString());
+            break;
         }
     }
 }
