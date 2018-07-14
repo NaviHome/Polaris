@@ -10,7 +10,7 @@
 #define ESP_RX 5
 #define ESP_TX 6
 
-#define ESP_BAUDRATE 9600
+#define ESP_BAUDRATE 115200
 
 SoftwareSerial esp(ESP_RX, ESP_TX); //RX TX
 
