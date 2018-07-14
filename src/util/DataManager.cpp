@@ -15,7 +15,6 @@
  */
 
 #include <ArduinoJson.h>
-#include <SoftwareSerial.h>
 #include "DataManager.h"
 #include "../module/BMP180.h"
 #include "../module/DHT11.h"
@@ -30,14 +29,12 @@
 String DataManager::timeNow = "1970-1-1 00:00:00";
 String DataManager::wifiModuleFirmwareInfo = "UKN WM FW";
 
-SoftwareSerial wifi(WIFI_MODULE_RX, WIFI_MODULE_TX); //RX TX
-
 void DataManager::init()
 {
     Serial.begin(SERIAL_BAUDRATE);
     Serial.setTimeout(SERIAL_READ_TIMEOUT);
-    wifi.begin(WIFI_MODULE_BAUDRATE);
-    wifi.setTimeout(SERIAL_READ_TIMEOUT);
+    Serial1.begin(WIFI_MODULE_BAUDRATE);
+    Serial1.setTimeout(SERIAL_READ_TIMEOUT);
     LcdHelper::init();
     BMP180::init();
     GP2Y10::init();
@@ -49,7 +46,7 @@ void DataManager::update()
     DHT11::readSensor();
     GP2Y10::readSensor();
 
-    DynamicJsonBuffer jsonBuffer(200); //no more than 200
+    DynamicJsonBuffer jsonBuffer(200);
     JsonObject &root = jsonBuffer.createObject();
     root["fn"] = NAME;
     root["fv"] = VER;
@@ -63,7 +60,7 @@ void DataManager::update()
     char buffer[200];
     root.printTo(buffer);
     Serial.println(buffer);
-    //wifi.println(buffer);
+    Serial1.println(buffer);
 
     jsonBuffer.clear();
 #if DEBUG

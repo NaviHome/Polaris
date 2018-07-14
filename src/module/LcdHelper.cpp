@@ -43,7 +43,6 @@ void LcdHelper::setDefalutValue(bool force = false)
         display.clear();
         display.setOrientation(3);
 
-#if !BOARD_NANO
         display.drawRectangle(0, 0, display.maxX() - 1, display.maxY() - 1, COLOR_ORANGE);
         display.setFont(Terminal6x8);
         //display.drawText(10, 10, "Now loading...", COLOR_GRAY);
@@ -54,7 +53,6 @@ void LcdHelper::setDefalutValue(bool force = false)
         display.drawText(85, 85, VER);
         delay(3000);
         display.clear();
-#endif
 
         display.drawRectangle(0, 0, display.maxX() - 1, display.maxY() - 1, COLOR_GREEN);
         printHeader();

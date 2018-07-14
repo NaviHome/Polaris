@@ -1,7 +1,7 @@
 # Polaris
 
 [![License](https://img.shields.io/github/license/NaviHome/Polaris.svg)](https://github.com/NaviHome/Polaris/blob/master/LICENSE)
-![Version](https://img.shields.io/badge/version-0.4.3--alpha-orange.svg)
+![Version](https://img.shields.io/badge/version-0.5.0--alpha-orange.svg)
 [![Build Status](https://travis-ci.org/NaviHome/Polaris.svg?branch=master)](https://travis-ci.org/NaviHome/Polaris)
 
 The firmware of the main controller of [NaviHome](https://github.com/NaviHome) by [iTX Technologies](https://github.com/iTXTech).
@@ -22,10 +22,7 @@ The firmware of the main controller of [NaviHome](https://github.com/NaviHome) b
 
 ## Compatible Boards
 
-* [Arduino UNO](https://store.arduino.cc/arduino-uno-rev3) - *Default*
-* [Arduino Mega 2560](https://store.arduino.cc/arduino-mega-2560-rev3) - *Tested*
-* [Arduino Nano](https://store.arduino.cc/arduino-nano) - *Tested*
-  * Change `BOARD_NANO` to `true` in `config.h`
+* [Arduino Mega 2560](https://store.arduino.cc/arduino-mega-2560-rev3)
 
 ---------------
 
