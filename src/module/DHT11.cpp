@@ -16,23 +16,29 @@
 
 #include <Arduino.h>
 #include <ArduinoJson.h>
-#include <SimpleDHT.h>
+#include <DHT.h>
 #include "DHT11.h"
 #include "../config.h"
 
 byte DHT11::temperature = 0;
 byte DHT11::humidity = 0;
 
-SimpleDHT11 dht11;
+long lastUpdate = 0;
 
-bool DHT11::readSensor()
+DHT dht11;
+
+void DHT11::init()
 {
-    int err = SimpleDHTErrSuccess;
-    if ((err = dht11.read(DHT11_PIN, &DHT11::temperature, &DHT11::humidity, NULL)) != SimpleDHTErrSuccess)
+    dht11.setup(DHT11_PIN);
+}
+
+void DHT11::readSensor()
+{
+    if (lastUpdate == 0 or (millis() - lastUpdate) > dht11.getMinimumSamplingPeriod())
     {
-        return false;
+        DHT11::temperature = dht11.getTemperature();
+        DHT11::humidity = dht11.getHumidity();
     }
-    return true;
 }
 
 byte DHT11::getTemperature()

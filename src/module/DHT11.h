@@ -25,7 +25,8 @@ private:
   static byte humidity;
 
 public:
-  static bool readSensor();
+  static void init();
+  static void readSensor();
   static byte getTemperature();
   static byte getHumidity();
   static void addJsonData(JsonArray &array);

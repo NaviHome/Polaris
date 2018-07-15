@@ -36,6 +36,7 @@ void DataManager::init()
     Serial1.begin(WIFI_MODULE_BAUDRATE);
     Serial1.setTimeout(SERIAL_READ_TIMEOUT);
     LcdHelper::init();
+    DHT11::init();
     BMP180::init();
     GP2Y10::init();
 }
