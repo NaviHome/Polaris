@@ -17,6 +17,7 @@
 #include <ArduinoJson.h>
 #include <time.h>
 #include "DataManager.h"
+#include "../module/BH1750FVI.h"
 #include "../module/BMP180.h"
 #include "../module/DHT11.h"
 #include "../module/GP2Y10.h"
@@ -36,30 +37,34 @@ void DataManager::init()
     Serial.setTimeout(SERIAL_READ_TIMEOUT);
     Serial1.begin(WIFI_MODULE_BAUDRATE);
     Serial1.setTimeout(SERIAL_READ_TIMEOUT);
-    LcdHelper::init();
+
+    BMP180::init();//init I2C
+    BH1750FVI::init();
     DHT11::init();
-    BMP180::init();
     GP2Y10::init();
+    LcdHelper::init();
 }
 
 void DataManager::update()
 {
+    BH1750FVI::readSensor();
     BMP180::readSensor();
     DHT11::readSensor();
     GP2Y10::readSensor();
 
-    DynamicJsonBuffer jsonBuffer(200);
+    DynamicJsonBuffer jsonBuffer(256);
     JsonObject &root = jsonBuffer.createObject();
     root["fn"] = NAME;
     root["fv"] = VER;
     root["ut"] = millis();
 
     JsonArray &sensorData = root.createNestedArray("s");
+    BH1750FVI::addJsonData(sensorData);
     BMP180::addJsonData(sensorData);
     DHT11::addJsonData(sensorData);
     GP2Y10::addJsonData(sensorData);
 
-    char buffer[200];
+    char buffer[256];
     root.printTo(buffer);
     Serial.println(buffer);
     Serial1.println(buffer);

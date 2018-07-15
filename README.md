@@ -13,6 +13,8 @@ The firmware of the main controller of [NaviHome](https://github.com/NaviHome) b
 * ILI9225 2.2' TFT * 1
 * DHT11 Sensor * 1
 * BMP180 Sensor * 1
+* GP2Y10(10/14) Sensor * 1
+* BH1750FVI Sensor * 1
 * UART WiFi Module * 1 (Recommended ESP-01)
 * Dupont Wires
 
@@ -31,18 +33,27 @@ The firmware of the main controller of [NaviHome](https://github.com/NaviHome) b
   * [ESP32-DevKitC V4](https://esp-idf.readthedocs.io/en/latest/get-started/get-started-devkitc.html)
   * [STM32 DevBoard](https://www.st.com/en/microcontrollers/stm32f103c8.html)
 
-## Environmental Data
+## Modules
 
-* BMP180
+### Sensors
+
+* BH1750FVI (I2C)
+  * Light Level (1 lx)
+* BMP180 (I2C)
   * Temperature (0.1°C)
   * Pressure (1 Pa)
   * ~~Altitude~~ - *Not available, API included*
   * ~~Sea Level Pressure~~ - *Not available, API included*
-* DHT11
+* DHT11 (Digital Signal)
   * Temperature (1°C)
   * Relative Humidity (1%)
-* GP2Y10(10/14)
+* GP2Y10(10/14) (Analog Signal)
   * Dust Density (1 ug/m3)
+
+### Others
+
+* ILI9225 2.2' TFT (SPI)
+  * Screen Size: 176 * 220
 
 ## Step to Build
 

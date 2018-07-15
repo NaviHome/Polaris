@@ -18,16 +18,13 @@
 
 #include <ArduinoJson.h>
 
-class BMP180
+class BH1750FVI
 {
 private:
-  static float temperature;
-  static long pressure;
-
+  static unsigned long lightLevel;
 public:
   static void init();
   static void readSensor();
-  static float getTemperature();
-  static long getPressure();
+  static unsigned long getLightLevel();
   static void addJsonData(JsonArray &array);
 };

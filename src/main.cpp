@@ -15,6 +15,7 @@
  */
 
 #include <Arduino.h>
+#include "module/BH1750FVI.h"
 #include "module/DHT11.h"
 #include "module/LcdHelper.h"
 #include "module/BMP180.h"
@@ -36,18 +37,20 @@ void loop()
     DataManager::update();
 
     TFT_22_ILI9225 display = LcdHelper::getDisplay();
-    display.drawText(10, 50, "Temperature: " + String(BMP180::getTemperature()) + " *C");
-    display.drawText(10, 60, "Pressure: " + String(BMP180::getPressure()) + " Pa");
+    display.drawText(10, 50, "Temp: " + String(BMP180::getTemperature()) + " *C");//Temperature
+    display.drawText(110, 50, "Pres: " + String(BMP180::getPressure()) + " Pa");//Pressure
 
-    display.drawText(10, 80, "DigitalTemp: " + String(DHT11::getTemperature()) + " *C");
-    display.drawText(10, 90, "Humidity: " + String(DHT11::getHumidity()) + "%");
+    display.drawText(10, 70, "DT: " + String(DHT11::getTemperature()) + " *C");//Digital Temperature
+    display.drawText(110, 70, "HR: " + String(DHT11::getHumidity()) + "%");//Relative Humidity
 
-    display.drawText(10, 110, "DustDensity: " + String(GP2Y10::getDustDensity()) + " ug/m3   ");
+    display.drawText(10, 90, "DustDensity: " + String(GP2Y10::getDustDensity()) + " ug/m3   ");//Dust Density
 
-    display.drawText(10, 130, "LoopTime: " + String(millis() - startTime) + " ms   ");
-    display.drawText(10, 140, "Uptime: " + Util::getUptime() + "  ");
+    display.drawText(10, 110, "LightLevel: " + String(BH1750FVI::getLightLevel()) + " lx  ");
 
-    display.drawText(10, 150, "Time: " + DataManager::getFormattedTime());
+    display.drawText(10, 130, "LoopTime: " + String(millis() - startTime) + " ms   ");//Loop Time
+    display.drawText(10, 140, "Uptime: " + Util::getUptime() + "  ");//Uptime
+
+    display.drawText(10, 150, "Time: " + DataManager::getFormattedTime());//Current Time
 
     delay(MAIN_LOOP_DELAY);
 }

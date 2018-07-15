@@ -14,20 +14,29 @@
  * limitations under the License.
  */
 
-#pragma once
+#include <BH1750.h>
+#include "BH1750FVI.h"
 
-#include <ArduinoJson.h>
+unsigned long BH1750FVI::lightLevel = 0;
 
-class BMP180
+BH1750 bh(0x23);
+
+void BH1750FVI::init()
 {
-private:
-  static float temperature;
-  static long pressure;
+    bh.begin(BH1750::CONTINUOUS_HIGH_RES_MODE_2);
+}
 
-public:
-  static void init();
-  static void readSensor();
-  static float getTemperature();
-  static long getPressure();
-  static void addJsonData(JsonArray &array);
-};
+void BH1750FVI::readSensor(){
+    BH1750FVI::lightLevel = bh.readLightLevel();
+}
+
+unsigned long BH1750FVI::getLightLevel(){
+    return BH1750FVI::lightLevel;
+}
+
+void BH1750FVI::addJsonData(JsonArray &array)
+{
+    JsonObject &data = array.createNestedObject();
+    data["n"] = "BH1750FVI";
+    data["l"] = BH1750FVI::lightLevel;
+}
