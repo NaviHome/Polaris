@@ -71,8 +71,8 @@ The firmware of the main controller of [NaviHome](https://github.com/NaviHome) b
         1: Re-init Display
             {"c":1}
         2: Update Time
-            {"c":2,"t":"2018-07-14 18:09:23"}
-            t: Current Time String
+            {"c":2,"t":"1531615194"}
+            t: Current Unix Timestamp
     */
 ```
 

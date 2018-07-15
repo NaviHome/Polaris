@@ -46,7 +46,8 @@ void loop()
 
     display.drawText(10, 130, "LoopTime: " + String(millis() - startTime) + " ms   ");
     display.drawText(10, 140, "Uptime: " + Util::getUptime() + "  ");
-    display.drawText(10, 150, "Time: " + String(DataManager::timeNow));
+
+    display.drawText(10, 150, "Time: " + DataManager::getFormattedTime());
 
     delay(MAIN_LOOP_DELAY);
 }

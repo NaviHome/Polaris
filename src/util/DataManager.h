@@ -21,8 +21,9 @@
 class DataManager
 {
 public:
-  static String timeNow;
+  static unsigned long startTime;
   static String wifiModuleFirmwareInfo;
   static void init();
   static void update();
+  static String getFormattedTime();
 };

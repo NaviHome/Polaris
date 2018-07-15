@@ -15,6 +15,7 @@
  */
 
 #include <ArduinoJson.h>
+#include <time.h>
 #include "DataManager.h"
 #include "../module/BMP180.h"
 #include "../module/DHT11.h"
@@ -26,7 +27,7 @@
 #define CMD_REINIT_DISPLAY 1
 #define CMD_UPDATE_TIME 2
 
-String DataManager::timeNow = "1970-1-1 00:00:00";
+unsigned long DataManager::startTime = 0;
 String DataManager::wifiModuleFirmwareInfo = "UKN WM FW";
 
 void DataManager::init()
@@ -78,8 +79,8 @@ void DataManager::update()
         1: Re-init Display
             {"c":1}
         2: Update Time
-            {"c":2,"t":"2018-07-14 18:09:23"}
-            t: Current Time String
+            {"c":2,"t":"1531615194"}
+            t: Current Unix Timestamp
     */
     if (command.containsKey("c"))
     {
@@ -94,8 +95,17 @@ void DataManager::update()
             LcdHelper::setDefalutValue(true);
             break;
         case CMD_UPDATE_TIME:
-            timeNow = String(command["t"].asString());
+            startTime = command["t"].as<long>() - millis() / 1000;
             break;
         }
     }
+}
+
+String DataManager::getFormattedTime()
+{
+    char time[30];
+    time_t t = DataManager::startTime + millis() / 1000 - UNIX_OFFSET;
+    set_zone(8 * ONE_HOUR);
+    strftime(time, 30, "%Y-%m-%d %H:%M:%S", localtime(&t));
+    return String(time);
 }

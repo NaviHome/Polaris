@@ -23,8 +23,6 @@
 byte DHT11::temperature = 0;
 byte DHT11::humidity = 0;
 
-long lastUpdate = 0;
-
 DHT dht11;
 
 void DHT11::init()
@@ -34,11 +32,8 @@ void DHT11::init()
 
 void DHT11::readSensor()
 {
-    if (lastUpdate == 0 or (millis() - lastUpdate) > dht11.getMinimumSamplingPeriod())
-    {
-        DHT11::temperature = dht11.getTemperature();
-        DHT11::humidity = dht11.getHumidity();
-    }
+    DHT11::temperature = dht11.getTemperature();
+    DHT11::humidity = dht11.getHumidity();
 }
 
 byte DHT11::getTemperature()
