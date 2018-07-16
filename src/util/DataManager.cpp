@@ -27,18 +27,30 @@
 #define CMD_WIFI_MODULE_INFO 0
 #define CMD_REINIT_DISPLAY 1
 #define CMD_UPDATE_TIME 2
+#define CMD_GET_INFO 3
+
+#define RESP_TICK_INFO 0
+#define RESP_INFO 1
 
 unsigned long DataManager::startTime = 0;
 String DataManager::wifiModuleFirmwareInfo = "UKN WM FW";
 
+#if DEBUG
+HardwareSerial &ser = Serial;
+#else
+HardwareSerial &ser = Serial1; //SoftwareSerial is also acceptable
+#endif
+
 void DataManager::init()
 {
+    pinMode(13, OUTPUT);//LED PIN
+
     Serial.begin(SERIAL_BAUDRATE);
     Serial.setTimeout(SERIAL_READ_TIMEOUT);
     Serial1.begin(WIFI_MODULE_BAUDRATE);
     Serial1.setTimeout(SERIAL_READ_TIMEOUT);
 
-    BMP180::init();//init I2C
+    BMP180::init(); //init I2C
     BH1750FVI::init();
     DHT11::init();
     GP2Y10::init();
@@ -54,9 +66,7 @@ void DataManager::update()
 
     DynamicJsonBuffer jsonBuffer(256);
     JsonObject &root = jsonBuffer.createObject();
-    root["fn"] = NAME;
-    root["fv"] = VER;
-    root["ut"] = millis();
+    root["r"] = RESP_TICK_INFO;
 
     JsonArray &sensorData = root.createNestedArray("s");
     BH1750FVI::addJsonData(sensorData);
@@ -64,17 +74,11 @@ void DataManager::update()
     DHT11::addJsonData(sensorData);
     GP2Y10::addJsonData(sensorData);
 
-    char buffer[256];
-    root.printTo(buffer);
-    Serial.println(buffer);
-    Serial1.println(buffer);
+    root.printTo(ser);
+    ser.println();
 
     jsonBuffer.clear();
-#if DEBUG
-    JsonObject &command = jsonBuffer.parseObject(Serial);
-#else
-    JsonObject &command = jsonBuffer.parseObject(wifi);
-#endif
+    JsonObject &command = jsonBuffer.parseObject(ser);
     /*
     commands:
         0: WiFi Module Information
@@ -86,9 +90,12 @@ void DataManager::update()
         2: Update Time
             {"c":2,"t":"1531615194"}
             t: Current Unix Timestamp
+        3: Get Current Status
+            {"c":3}
     */
-    if (command.containsKey("c"))
+    if (command.containsKey("c")) //process command and send response(optional)
     {
+        digitalWrite(13, HIGH);
         int cmd = command["c"];
         switch (cmd)
         {
@@ -102,6 +109,26 @@ void DataManager::update()
         case CMD_UPDATE_TIME:
             startTime = command["t"].as<long>() - millis() / 1000;
             break;
+        case CMD_GET_INFO:
+            jsonBuffer.clear();
+            JsonObject &info = jsonBuffer.createObject();
+            info["r"] = RESP_INFO;
+            info["n"] = NAME;
+            root["v"] = VER;
+            root["t"] = millis();
+            root["s"] = startTime;
+
+            info.printTo(ser);
+            ser.println();
+            break;
+        }
+        digitalWrite(13, LOW);
+    }
+    if (command.containsKey("r")) //process response
+    {
+        int resp = command["r"];
+        switch (resp)
+        {
         }
     }
 }

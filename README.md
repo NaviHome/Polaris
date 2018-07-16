@@ -84,6 +84,8 @@ The firmware of the main controller of [NaviHome](https://github.com/NaviHome) b
         2: Update Time
             {"c":2,"t":"1531615194"}
             t: Current Unix Timestamp
+        3: Get Current Status
+            {"c":3}
     */
 ```
 
