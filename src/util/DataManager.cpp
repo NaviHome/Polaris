@@ -45,6 +45,8 @@ void DataManager::init()
 {
     pinMode(13, OUTPUT);//LED PIN
 
+    digitalWrite(13, HIGH);
+
     Serial.begin(SERIAL_BAUDRATE);
     Serial.setTimeout(SERIAL_READ_TIMEOUT);
     Serial1.begin(WIFI_MODULE_BAUDRATE);
@@ -55,6 +57,10 @@ void DataManager::init()
     DHT11::init();
     GP2Y10::init();
     LcdHelper::init();
+    
+    LcdHelper::setDefalutValue();
+
+    digitalWrite(13, LOW);
 }
 
 void DataManager::update()

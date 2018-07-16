@@ -51,7 +51,7 @@ void LcdHelper::setDefalutValue(bool force = false)
         display.drawText(70, 60, NAME, COLOR_LIGHTBLUE);
         display.setFont(Terminal11x16);
         display.drawText(85, 85, VER);
-        delay(3000);
+        delay(1500);
         display.clear();
 
         display.drawRectangle(0, 0, display.maxX() - 1, display.maxY() - 1, COLOR_GREEN);

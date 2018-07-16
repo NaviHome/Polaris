@@ -33,7 +33,6 @@ void loop()
 {
     long startTime = millis();
 
-    LcdHelper::setDefalutValue();
     DataManager::update();
 
     TFT_22_ILI9225 display = LcdHelper::getDisplay();
