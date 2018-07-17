@@ -1,7 +1,7 @@
 # Polaris
 
 [![License](https://img.shields.io/github/license/NaviHome/Polaris.svg)](https://github.com/NaviHome/Polaris/blob/master/LICENSE)
-![Version](https://img.shields.io/badge/version-0.5.0--alpha-orange.svg)
+![Version](https://img.shields.io/badge/version-0.5.1--alpha-orange.svg)
 [![Build Status](https://travis-ci.org/NaviHome/Polaris.svg?branch=master)](https://travis-ci.org/NaviHome/Polaris)
 
 The firmware of the main controller of [NaviHome](https://github.com/NaviHome) by [iTX Technologies](https://github.com/iTXTech).
@@ -76,16 +76,20 @@ The firmware of the main controller of [NaviHome](https://github.com/NaviHome) b
     /*
     commands:
         0: WiFi Module Information
-            {"c":0,"fn":"Chronos","fv":"0.1.0"}
-            fn: Firmware Name
-            fv: Firmware Version
+            {"c":0,"n":"Chronos","v":"0.1.0"}
+            n: Firmware Name
+            v: Firmware Version
         1: Re-init Display
             {"c":1}
         2: Update Time
             {"c":2,"t":"1531615194"}
             t: Current Unix Timestamp
-        3: Get Current Status
+        3: Get Information (Firmware info, WiFi info)
             {"c":3}
+        4: Set WiFi Info
+            {"c":4,"s":"SSIDofWiFi","p":"password"}
+            s: SSID
+            p: Password
     */
 ```
 

@@ -20,7 +20,7 @@
 #include <Arduino.h>
 
 const String NAME = "Polaris";
-const String VER = "0.5.0";
+const String VER = "0.5.1";
 const String COPYRIGHT = "(C) 2018 iTX Technologies";
 
 //WatchDog Timeout

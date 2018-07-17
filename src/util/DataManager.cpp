@@ -22,12 +22,14 @@
 #include "../module/DHT11.h"
 #include "../module/GP2Y10.h"
 #include "../module/LcdHelper.h"
+#include "../util/Configuration.h"
 #include "../config.h"
 
 #define CMD_WIFI_MODULE_INFO 0
 #define CMD_REINIT_DISPLAY 1
 #define CMD_UPDATE_TIME 2
 #define CMD_GET_INFO 3
+#define CMD_SET_WIFI_INFO 4
 
 #define RESP_TICK_INFO 0
 #define RESP_INFO 1
@@ -43,7 +45,7 @@ HardwareSerial &ser = Serial1; //SoftwareSerial is also acceptable
 
 void DataManager::init()
 {
-    pinMode(13, OUTPUT);//LED PIN
+    pinMode(13, OUTPUT); //LED PIN
 
     digitalWrite(13, HIGH);
 
@@ -57,7 +59,9 @@ void DataManager::init()
     DHT11::init();
     GP2Y10::init();
     LcdHelper::init();
-    
+
+    Configuration::init();
+
     LcdHelper::setDefalutValue();
 
     digitalWrite(13, LOW);
@@ -88,16 +92,20 @@ void DataManager::update()
     /*
     commands:
         0: WiFi Module Information
-            {"c":0,"fn":"Chronos","fv":"0.1.0"}
-            fn: Firmware Name
-            fv: Firmware Version
+            {"c":0,"n":"Chronos","v":"0.1.0"}
+            n: Firmware Name
+            v: Firmware Version
         1: Re-init Display
             {"c":1}
         2: Update Time
             {"c":2,"t":"1531615194"}
             t: Current Unix Timestamp
-        3: Get Current Status
+        3: Get Information (Firmware info, WiFi info)
             {"c":3}
+        4: Set WiFi Info
+            {"c":4,"s":"SSIDofWiFi","p":"password"}
+            s: SSID
+            p: Password
     */
     if (command.containsKey("c")) //process command and send response(optional)
     {
@@ -106,7 +114,7 @@ void DataManager::update()
         switch (cmd)
         {
         case CMD_WIFI_MODULE_INFO:
-            wifiModuleFirmwareInfo = String(command["fn"].asString()) + " " + String(command["fv"].asString());
+            wifiModuleFirmwareInfo = String(command["n"].asString()) + " " + String(command["v"].asString());
             LcdHelper::printHeader();
             break;
         case CMD_REINIT_DISPLAY:
@@ -116,16 +124,26 @@ void DataManager::update()
             startTime = command["t"].as<long>() - millis() / 1000;
             break;
         case CMD_GET_INFO:
+        {
             jsonBuffer.clear();
-            JsonObject &info = jsonBuffer.createObject();
-            info["r"] = RESP_INFO;
-            info["n"] = NAME;
-            root["v"] = VER;
-            root["t"] = millis();
-            root["s"] = startTime;
+            JsonObject &resp = jsonBuffer.createObject();
+            resp["r"] = RESP_INFO;
+            resp["n"] = NAME;
+            resp["v"] = VER;
+            resp["t"] = millis();
+            resp["s"] = startTime;
 
-            info.printTo(ser);
+            resp["d"] = Configuration::WIFI_SSID;
+            resp["p"] = Configuration::WIFI_PASS;
+
+            resp.printTo(ser);
             ser.println();
+        }
+        break;
+        case CMD_SET_WIFI_INFO:
+            Configuration::setSsid(command["s"]);
+            Configuration::setPass(command["p"]);
+            LcdHelper::printHeader();
             break;
         }
         digitalWrite(13, LOW);

@@ -17,6 +17,7 @@
 #include <SPI.h>
 #include <TFT_22_ILI9225.h>
 #include "LcdHelper.h"
+#include "../util/Configuration.h"
 #include "../util/DataManager.h"
 #include "../config.h"
 
@@ -65,5 +66,6 @@ void LcdHelper::printHeader()
     display.setFont(Terminal6x8);
     display.drawText(10, 10, NAME + " " + VER);
     display.drawText(10, 20, DataManager::wifiModuleFirmwareInfo);
+    display.drawText(110, 20, Configuration::WIFI_SSID);
     display.drawText(10, 30, COPYRIGHT);
 }
