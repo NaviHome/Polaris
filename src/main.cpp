@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+#include <avr/wdt.h>
 #include <Arduino.h>
 #include "module/BH1750FVI.h"
 #include "module/DHT11.h"
@@ -26,11 +27,13 @@
 
 void setup()
 {
+    wdt_enable(WATCHDOG_TIMER_TIMEOUT);
     DataManager::init();
 }
 
 void loop()
 {
+    wdt_reset();
     long startTime = millis();
 
     DataManager::update();

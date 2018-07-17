@@ -16,11 +16,15 @@
 
 #pragma once
 
+#include <avr/wdt.h>
 #include <Arduino.h>
 
 const String NAME = "Polaris";
 const String VER = "0.5.0";
 const String COPYRIGHT = "(C) 2018 iTX Technologies";
+
+//WatchDog Timeout
+#define WATCHDOG_TIMER_TIMEOUT WDTO_4S
 
 //Change this to false when release
 #define DEBUG true
