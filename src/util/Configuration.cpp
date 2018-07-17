@@ -22,8 +22,8 @@
 #define SSID_LEN 32
 #define PASS_LEN 32
 
-char* Configuration::WIFI_PASS = "";
-char* Configuration::WIFI_SSID = "";
+char* Configuration::WIFI_PASS;
+char* Configuration::WIFI_SSID;
 
 void Configuration::init()
 {
@@ -75,7 +75,7 @@ int Configuration::EEPROMRead(int addr, char *buf)
     {
         return 0;
     }
-    while (c != EEPROM_END && count < EEPROM_SIZE)
+    while (c != EEPROM_END)
     {
         c = (char)EEPROM.read(addr);
         count++;
