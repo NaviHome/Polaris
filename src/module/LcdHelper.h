@@ -20,9 +20,12 @@
 
 class LcdHelper
 {
+private:
+  static unsigned long lastUpdate;
 public:
   static void init();
   static TFT_22_ILI9225 getDisplay();
-  static void setDefalutValue(bool force = false);
+  static void load();
   static void printHeader();
+  static void updateBrightness(unsigned long lightLevel);
 };

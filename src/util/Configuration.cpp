@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 #include <EEPROM.h>
 #include "Configuration.h"
 #include "../config.h"

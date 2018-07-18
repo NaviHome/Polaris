@@ -62,7 +62,7 @@ void DataManager::init()
 
     Configuration::init();
 
-    LcdHelper::setDefalutValue();
+    LcdHelper::load();
 
     digitalWrite(13, LOW);
 }
@@ -118,7 +118,7 @@ void DataManager::update()
             LcdHelper::printHeader();
             break;
         case CMD_REINIT_DISPLAY:
-            LcdHelper::setDefalutValue(true);
+            LcdHelper::load();
             break;
         case CMD_UPDATE_TIME:
             startTime = command["t"].as<long>() - millis() / 1000;

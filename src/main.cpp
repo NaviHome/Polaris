@@ -37,9 +37,10 @@ void loop()
     long startTime = millis();
 
     DataManager::update();
+    LcdHelper::updateBrightness(BH1750FVI::getLightLevel());
 
     TFT_22_ILI9225 display = LcdHelper::getDisplay();
-    display.drawText(10, 50, "Temp: " + String(BMP180::getTemperature()) + " *C");//Temperature
+    display.drawText(10, 50, "Temp: " + String(BMP180::getTemperature()) + " *C  ");//Temperature
     display.drawText(110, 50, "Pres: " + String(BMP180::getPressure()) + " Pa");//Pressure
 
     display.drawText(10, 70, "DT: " + String(DHT11::getTemperature()) + " *C");//Digital Temperature
@@ -47,7 +48,7 @@ void loop()
 
     display.drawText(10, 90, "DustDensity: " + String(GP2Y10::getDustDensity()) + " ug/m3   ");//Dust Density
 
-    display.drawText(10, 110, "LightLevel: " + String(BH1750FVI::getLightLevel()) + " lx  ");
+    display.drawText(10, 110, "LightLevel: " + String(BH1750FVI::getLightLevel()) + " lx     ");
 
     display.drawText(10, 130, "LoopTime: " + String(millis() - startTime) + " ms   ");//Loop Time
     display.drawText(10, 140, "Uptime: " + Util::getUptime() + "  ");//Uptime
