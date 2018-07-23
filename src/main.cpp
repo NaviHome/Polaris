@@ -37,9 +37,15 @@ void loop()
     long startTime = millis();
 
     DataManager::update();
+    delay(MAIN_LOOP_DELAY);
+
     LcdHelper::updateBrightness(BH1750FVI::getLightLevel());
 
     TFT_22_ILI9225 display = LcdHelper::getDisplay();
+
+#if MINIMIZE
+    display.drawText(10, 50, "Waiting for someone who can optimize display for ATmega328P");
+#else
     display.drawText(10, 50, "Temp: " + String(BMP180::getTemperature()) + " *C  ");//Temperature
     display.drawText(110, 50, "Pres: " + String(BMP180::getPressure()) + " Pa");//Pressure
 
@@ -54,6 +60,5 @@ void loop()
     display.drawText(10, 140, "Uptime: " + Util::getUptime() + "  ");//Uptime
 
     display.drawText(10, 150, "Time: " + DataManager::getFormattedTime());//Current Time
-
-    delay(MAIN_LOOP_DELAY);
+#endif
 }

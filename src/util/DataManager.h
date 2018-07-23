@@ -24,6 +24,6 @@ public:
   static unsigned long startTime;
   static String wifiModuleFirmwareInfo;
   static void init();
-  static void update();
+  static boolean update();
   static String getFormattedTime();
 };

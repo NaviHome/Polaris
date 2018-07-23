@@ -19,19 +19,27 @@
 #include <avr/wdt.h>
 #include <Arduino.h>
 
-const String NAME = "Polaris";
-const String VER = "0.5.2";
-const String COPYRIGHT = "(C) 2018 iTX Technologies";
+#define NAME "Polaris"
+#define VER "0.5.3"
+#define COPYRIGHT "(C) 2018 iTX Technologies"
 
-//WatchDog Timeout
-#define WATCHDOG_TIMER_TIMEOUT WDTO_4S
+//Change to true when using ATmega328P
+#define MINIMIZE false
+
+//Use SoftwareSerial
+#define SOFTWARE_SERIAL false
+#define SOFTWARE_SERIAL_RX 2
+#define SOFTWARE_SERIAL_TX 3
 
 //Change this to false when release
 #define DEBUG true
 
+//WatchDog Timeout
+#define WATCHDOG_TIMER_TIMEOUT WDTO_4S
+
 //Serial config
 #define SERIAL_BAUDRATE 115200
-#define SERIAL_READ_TIMEOUT 200
+#define SERIAL_READ_TIMEOUT 100
 
 //WiFi Module UART config
 #define WIFI_MODULE_BAUDRATE 115200

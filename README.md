@@ -1,7 +1,7 @@
 # Polaris
 
 [![License](https://img.shields.io/github/license/NaviHome/Polaris.svg)](https://github.com/NaviHome/Polaris/blob/master/LICENSE)
-![Version](https://img.shields.io/badge/version-0.5.1--alpha-orange.svg)
+[![Version](https://img.shields.io/badge/version-0.5.3--alpha-orange.svg)](https://github.com/NaviHome/Polaris/blob/master/src/config.h)
 [![Build Status](https://travis-ci.org/NaviHome/Polaris.svg?branch=master)](https://travis-ci.org/NaviHome/Polaris)
 
 The firmware of the main controller of [NaviHome](https://github.com/NaviHome) by [iTX Technologies](https://github.com/iTXTech).
@@ -25,12 +25,10 @@ The firmware of the main controller of [NaviHome](https://github.com/NaviHome) b
 ## Compatible Boards
 
 * [Arduino Mega 2560](https://store.arduino.cc/arduino-mega-2560-rev3)
-
----------------
-
+* [Arduino UNO R3/Nano](https://store.arduino.cc/arduino-uno-rev3) - *Check config.h, RAM may not enough*
 * Any board which supports SPI, ADC, I2C
   * [ESP8266 DevBoard](https://www.esp8266.com/wiki/doku.php?id=esp8266-module-family)
-  * [ESP32-DevKitC V4](https://esp-idf.readthedocs.io/en/latest/get-started/get-started-devkitc.html)
+  * [ESP32 DevBoard](https://esp-idf.readthedocs.io/en/latest/get-started/get-started-devkitc.html)
   * [STM32 DevBoard](https://www.st.com/en/microcontrollers/stm32f103c8.html)
 
 ## Modules

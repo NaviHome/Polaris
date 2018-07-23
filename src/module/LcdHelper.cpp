@@ -46,6 +46,7 @@ void LcdHelper::load()
     display.clear();
     display.setOrientation(3);
 
+#if !MINIMIZE
     display.drawRectangle(0, 0, display.maxX() - 1, display.maxY() - 1, COLOR_ORANGE);
     display.setFont(Terminal6x8);
     //display.drawText(10, 10, "Now loading...", COLOR_GRAY);
@@ -56,6 +57,7 @@ void LcdHelper::load()
     display.drawText(85, 85, VER);
     delay(1500);
     display.clear();
+#endif
 
     display.drawRectangle(0, 0, display.maxX() - 1, display.maxY() - 1, COLOR_GREEN);
     printHeader();
@@ -64,7 +66,9 @@ void LcdHelper::load()
 void LcdHelper::printHeader()
 {
     display.setFont(Terminal6x8);
-    display.drawText(10, 10, NAME + " " + VER);
+    char str[30];
+    sprintf(str, "%s %s", NAME, VER);
+    display.drawText(10, 10, str);
     display.drawText(10, 20, DataManager::wifiModuleFirmwareInfo);
     display.drawText(110, 20, Configuration::WIFI_SSID);
     display.drawText(10, 30, COPYRIGHT);

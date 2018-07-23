@@ -15,6 +15,7 @@
  */
 
 #include <ArduinoJson.h>
+#include <SoftwareSerial.h>
 #include <time.h>
 #include "DataManager.h"
 #include "../module/BH1750FVI.h"
@@ -37,10 +38,20 @@
 unsigned long DataManager::startTime = 0;
 String DataManager::wifiModuleFirmwareInfo = "UKN WM FW";
 
+#if SOFTWARE_SERIAL
+SoftwareSerial wifi(SOFTWARE_SERIAL_RX, SOFTWARE_SERIAL_TX);
+#else
+HardwareSerial &wifi = Serial1;
+#endif
+
 #if DEBUG
 HardwareSerial &ser = Serial;
 #else
-HardwareSerial &ser = Serial1; //SoftwareSerial is also acceptable
+#if SOFTWARE_SERIAL
+SoftwareSerial &ser = wifi;
+#else
+HardwareSerial &ser = Serial1;
+#endif
 #endif
 
 void DataManager::init()
@@ -51,8 +62,8 @@ void DataManager::init()
 
     Serial.begin(SERIAL_BAUDRATE);
     Serial.setTimeout(SERIAL_READ_TIMEOUT);
-    Serial1.begin(WIFI_MODULE_BAUDRATE);
-    Serial1.setTimeout(SERIAL_READ_TIMEOUT);
+    wifi.begin(WIFI_MODULE_BAUDRATE);
+    wifi.setTimeout(SERIAL_READ_TIMEOUT);
 
     BMP180::init(); //init I2C
     BH1750FVI::init();
@@ -67,7 +78,7 @@ void DataManager::init()
     digitalWrite(13, LOW);
 }
 
-void DataManager::update()
+boolean DataManager::update()
 {
     BH1750FVI::readSensor();
     BMP180::readSensor();
@@ -88,7 +99,13 @@ void DataManager::update()
     ser.println();
 
     jsonBuffer.clear();
-    JsonObject &command = jsonBuffer.parseObject(ser);
+    char json[64];
+    ser.readBytes(json, sizeof(json));
+    JsonObject &command = jsonBuffer.parseObject(json);
+    if (!command.success())
+    {
+        return false;
+    }
     /*
     commands:
         0: WiFi Module Information
@@ -147,6 +164,7 @@ void DataManager::update()
             break;
         }
         digitalWrite(13, LOW);
+        return true;
     }
     if (command.containsKey("r")) //process response
     {
@@ -154,14 +172,20 @@ void DataManager::update()
         switch (resp)
         {
         }
+        return true;
     }
+    return false;
 }
 
 String DataManager::getFormattedTime()
 {
+#if MINIMIZE
+    return F("Not Supported");
+#else
     char time[30];
     time_t t = DataManager::startTime + millis() / 1000 - UNIX_OFFSET;
     set_zone(8 * ONE_HOUR);
     strftime(time, 30, "%Y-%m-%d %H:%M:%S", localtime(&t));
     return String(time);
+#endif
 }
