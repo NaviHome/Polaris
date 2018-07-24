@@ -1,7 +1,7 @@
 # Polaris
 
 [![License](https://img.shields.io/github/license/NaviHome/Polaris.svg)](https://github.com/NaviHome/Polaris/blob/master/LICENSE)
-[![Version](https://img.shields.io/badge/version-0.5.3--alpha-orange.svg)](https://github.com/NaviHome/Polaris/blob/master/src/config.h)
+[![Version](https://img.shields.io/badge/version-0.6.0--alpha-orange.svg)](https://github.com/NaviHome/Polaris/blob/master/src/config.h)
 [![Build Status](https://travis-ci.org/NaviHome/Polaris.svg?branch=master)](https://travis-ci.org/NaviHome/Polaris)
 
 The firmware of the main controller of [NaviHome](https://github.com/NaviHome) by [iTX Technologies](https://github.com/iTXTech).
@@ -15,6 +15,7 @@ The firmware of the main controller of [NaviHome](https://github.com/NaviHome) b
 * BMP180 Sensor * 1
 * GP2Y10(10/14) Sensor * 1
 * BH1750FVI Sensor * 1
+* MQ135 Sensor * 1
 * UART WiFi Module * 1 (Recommended ESP-01)
 * Dupont Wires
 
@@ -47,6 +48,8 @@ The firmware of the main controller of [NaviHome](https://github.com/NaviHome) b
   * Relative Humidity (1%)
 * GP2Y10(10/14) (Analog Signal)
   * Dust Density (1 ug/m3)
+* MQ135 (Analog Signal)
+  * Gas concentration (1 ppm)
 
 ### Others
 

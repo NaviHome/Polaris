@@ -19,7 +19,7 @@
 #include <avr/wdt.h>
 
 #define NAME "Polaris"
-#define VER "0.5.3"
+#define VER "0.6.0"
 #define COPYRIGHT "(C) 2018 iTX Technologies"
 
 //Change to true when using ATmega328P
@@ -64,3 +64,6 @@
 #define TFT_CLK 52 // SCK
 #define TFT_LED 3  // 0 if wired to +5V directly
 #define UPDATE_DELAY 1000
+
+//MQ135 config
+#define MQ135_PIN A1

@@ -21,6 +21,7 @@
 #include "module/LcdHelper.h"
 #include "module/BMP180.h"
 #include "module/GP2Y10.h"
+#include "module/MQS135.h"
 #include "util/Util.h"
 #include "util/DataManager.h"
 #include "config.h"
@@ -54,7 +55,8 @@ void loop()
 
     display.drawText(10, 90, "DustDensity: " + String(GP2Y10::getDustDensity()) + " ug/m3   ");//Dust Density
 
-    display.drawText(10, 110, "LightLevel: " + String(BH1750FVI::getLightLevel()) + " lx     ");
+    display.drawText(10, 110, "LL: " + String(BH1750FVI::getLightLevel()) + " lx     ");
+    display.drawText(110, 110, "GC: " + String(MQS135::getPpm()) + " ppm   ");
 
     display.drawText(10, 130, "LoopTime: " + String(millis() - startTime) + " ms   ");//Loop Time
     display.drawText(10, 140, "Uptime: " + Util::getUptime() + "  ");//Uptime

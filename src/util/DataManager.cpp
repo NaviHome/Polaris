@@ -23,6 +23,7 @@
 #include "../module/DHT11.h"
 #include "../module/GP2Y10.h"
 #include "../module/LcdHelper.h"
+#include "../module/MQS135.h"
 #include "../util/Configuration.h"
 #include "../config.h"
 
@@ -69,6 +70,7 @@ void DataManager::init()
     DHT11::init();
     GP2Y10::init();
     LcdHelper::init();
+    MQS135::init();
 
     Configuration::init();
     LcdHelper::load();
@@ -82,6 +84,7 @@ boolean DataManager::update()
     BMP180::readSensor();
     DHT11::readSensor();
     GP2Y10::readSensor();
+    MQS135::readSensor();
 
     DynamicJsonBuffer jsonBuffer(256);
     JsonObject &root = jsonBuffer.createObject();
@@ -92,6 +95,7 @@ boolean DataManager::update()
     BMP180::addJsonData(sensorData);
     DHT11::addJsonData(sensorData);
     GP2Y10::addJsonData(sensorData);
+    MQS135::addJsonData(sensorData);
 
     root.printTo(ser);
     ser.println();
