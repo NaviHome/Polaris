@@ -17,7 +17,6 @@
 #pragma once
 
 #include <avr/wdt.h>
-#include <Arduino.h>
 
 #define NAME "Polaris"
 #define VER "0.5.3"
@@ -33,6 +32,10 @@
 
 //Change this to false when release
 #define DEBUG true
+
+//Timezone for calcuting timestamp, default = GMT+8
+//#define TIMEZONE -6
+#define TIMEZONE 8
 
 //WatchDog Timeout
 #define WATCHDOG_TIMER_TIMEOUT WDTO_4S

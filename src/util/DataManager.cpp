@@ -57,7 +57,6 @@ HardwareSerial &ser = Serial1;
 void DataManager::init()
 {
     pinMode(13, OUTPUT); //LED PIN
-
     digitalWrite(13, HIGH);
 
     Serial.begin(SERIAL_BAUDRATE);
@@ -72,7 +71,6 @@ void DataManager::init()
     LcdHelper::init();
 
     Configuration::init();
-
     LcdHelper::load();
 
     digitalWrite(13, LOW);
@@ -184,7 +182,7 @@ String DataManager::getFormattedTime()
 #else
     char time[30];
     time_t t = DataManager::startTime + millis() / 1000 - UNIX_OFFSET;
-    set_zone(8 * ONE_HOUR);
+    set_zone(TIMEZONE * ONE_HOUR);
     strftime(time, 30, "%Y-%m-%d %H:%M:%S", localtime(&t));
     return String(time);
 #endif
