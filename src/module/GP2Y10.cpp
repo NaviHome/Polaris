@@ -23,17 +23,16 @@
 #define DELTA_TIME 40
 #define SLEEP_TIME 9680
 
-int GP2Y10::voMeasured = 0;
-float GP2Y10::calcVoltage = 0;
-float GP2Y10::dustDensity = 0;
-float GP2Y10::dustDensityAverage = 0;
-
+int GP2Y10::voMeasured;
+float GP2Y10::calcVoltage;
+float GP2Y10::dustDensity;
+float GP2Y10::dustDensityAverage;
 float GP2Y10::dustDensityHistory[DENSITY_HISTROY_COUNT];
 
 void GP2Y10::init()
 {
     pinMode(LED_PIN, OUTPUT);
-    for (int i = 0; i < 10; i++)
+    for (int i = 0; i < DENSITY_HISTROY_COUNT; i++)
     {
         GP2Y10::dustDensityHistory[i] = 0;
     }
@@ -84,7 +83,8 @@ void GP2Y10::readSensor()
     GP2Y10::dustDensityAverage = total / DENSITY_HISTROY_COUNT;
 }
 
-float GP2Y10::getDustDensity(){
+float GP2Y10::getDustDensity()
+{
     return GP2Y10::dustDensityAverage;
 }
 

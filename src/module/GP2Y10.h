@@ -27,7 +27,6 @@ private:
   static float calcVoltage;
   static float dustDensity;
   static float dustDensityAverage;
-
   static float dustDensityHistory[DENSITY_HISTROY_COUNT];
 
 public:

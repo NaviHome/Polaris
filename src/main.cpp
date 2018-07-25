@@ -38,7 +38,6 @@ void loop()
     long startTime = millis();
 
     DataManager::update();
-    delay(MAIN_LOOP_DELAY);
 
     LcdHelper::updateBrightness(BH1750FVI::getLightLevel());
 
@@ -47,20 +46,21 @@ void loop()
 #if MINIMIZE
     display.drawText(10, 50, "Waiting for someone who can optimize display for ATmega328P");
 #else
-    display.drawText(10, 50, "Temp: " + String(BMP180::getTemperature()) + " *C  ");//Temperature
-    display.drawText(110, 50, "Pres: " + String(BMP180::getPressure()) + " Pa");//Pressure
+    display.drawText(10, 50, "Temp: " + String(BMP180::getTemperature()) + " *C  "); //Temperature
+    display.drawText(110, 50, "Pres: " + String(BMP180::getPressure()) + " Pa");     //Pressure
 
-    display.drawText(10, 70, "DT: " + String(DHT11::getTemperature()) + " *C");//Digital Temperature
-    display.drawText(110, 70, "HR: " + String(DHT11::getHumidity()) + "%");//Relative Humidity
+    display.drawText(10, 70, "DT: " + String(DHT11::getTemperature()) + " *C"); //Digital Temperature
+    display.drawText(110, 70, "HR: " + String(DHT11::getHumidity()) + "%");     //Relative Humidity
 
-    display.drawText(10, 90, "DustDensity: " + String(GP2Y10::getDustDensity()) + " ug/m3   ");//Dust Density
+    display.drawText(10, 90, "DustDensity: " + String(GP2Y10::getDustDensity()) + " ug/m3   "); //Dust Density
 
     display.drawText(10, 110, "LL: " + String(BH1750FVI::getLightLevel()) + " lx     ");
     display.drawText(110, 110, "GC: " + String(MQS135::getPpm()) + " ppm   ");
 
-    display.drawText(10, 130, "LoopTime: " + String(millis() - startTime) + " ms   ");//Loop Time
-    display.drawText(10, 140, "Uptime: " + Util::getUptime() + "  ");//Uptime
+    display.drawText(10, 130, "LoopTime: " + String(millis() - startTime) + " ms   "); //Loop Time
+    display.drawText(10, 140, "Uptime: " + Util::getUptime() + "  ");                  //Uptime
 
-    display.drawText(10, 150, "Time: " + DataManager::getFormattedTime());//Current Time
+    display.drawText(10, 150, "Time: " + DataManager::getFormattedTime()); //Current Time
 #endif
+    delay(MAIN_LOOP_DELAY);
 }
