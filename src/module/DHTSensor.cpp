@@ -17,39 +17,39 @@
 #include <Arduino.h>
 #include <ArduinoJson.h>
 #include <DHT.h>
-#include "DHT11.h"
+#include "DHTSensor.h"
 #include "../config.h"
 
-byte DHT11::temperature = 0;
-byte DHT11::humidity = 0;
+byte DHTSensor::temperature = 0;
+byte DHTSensor::humidity = 0;
 
-DHT dht11;
+DHT dht11(DHT11_PIN, DHT11);
 
-void DHT11::init()
+void DHTSensor::init()
 {
-    dht11.setup(DHT11_PIN);
+    dht11.begin();
 }
 
-void DHT11::readSensor()
+void DHTSensor::readSensor()
 {
-    DHT11::temperature = dht11.getTemperature();
-    DHT11::humidity = dht11.getHumidity();
+    DHTSensor::temperature = dht11.readTemperature();
+    DHTSensor::humidity = dht11.readHumidity();
 }
 
-byte DHT11::getTemperature()
+byte DHTSensor::getTemperature()
 {
-    return DHT11::temperature;
+    return DHTSensor::temperature;
 }
 
-byte DHT11::getHumidity()
+byte DHTSensor::getHumidity()
 {
-    return DHT11::humidity;
+    return DHTSensor::humidity;
 }
 
-void DHT11::addJsonData(JsonArray &array)
+void DHTSensor::addJsonData(JsonArray &array)
 {
     JsonObject &data = array.createNestedObject();
     data["n"] = "DHT11";
-    data["t"] = DHT11::temperature;
-    data["h"] = DHT11::humidity;
+    data["t"] = DHTSensor::temperature;
+    data["h"] = DHTSensor::humidity;
 }

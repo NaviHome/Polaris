@@ -20,7 +20,7 @@
 #include "DataManager.h"
 #include "../module/BH1750FVI.h"
 #include "../module/BMP180.h"
-#include "../module/DHT11.h"
+#include "../module/DHTSensor.h"
 #include "../module/GP2Y10.h"
 #include "../module/LcdHelper.h"
 #include "../module/MQS135.h"
@@ -67,7 +67,7 @@ void DataManager::init()
 
     BMP180::init(); //init I2C
     BH1750FVI::init();
-    DHT11::init();
+    DHTSensor::init();
     GP2Y10::init();
     LcdHelper::init();
     MQS135::init();
@@ -82,7 +82,7 @@ boolean DataManager::update()
 {
     BH1750FVI::readSensor();
     BMP180::readSensor();
-    DHT11::readSensor();
+    DHTSensor::readSensor();
     GP2Y10::readSensor();
     MQS135::readSensor();
 
@@ -93,7 +93,7 @@ boolean DataManager::update()
     JsonArray &sensorData = root.createNestedArray("s");
     BH1750FVI::addJsonData(sensorData);
     BMP180::addJsonData(sensorData);
-    DHT11::addJsonData(sensorData);
+    DHTSensor::addJsonData(sensorData);
     GP2Y10::addJsonData(sensorData);
     MQS135::addJsonData(sensorData);
 

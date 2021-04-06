@@ -19,8 +19,8 @@
 #include <avr/wdt.h>
 
 #define NAME "Polaris"
-#define VER "0.6.1"
-#define COPYRIGHT "(C) 2018 iTX Technologies"
+#define VER "0.7.0"
+#define COPYRIGHT "(C) 2018-2021 iTX Technologies"
 
 //Change to true when using ATmega328P
 #define MINIMIZE false

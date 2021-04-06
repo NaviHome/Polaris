@@ -17,7 +17,7 @@
 #include <avr/wdt.h>
 #include <Arduino.h>
 #include "module/BH1750FVI.h"
-#include "module/DHT11.h"
+#include "module/DHTSensor.h"
 #include "module/LcdHelper.h"
 #include "module/BMP180.h"
 #include "module/GP2Y10.h"
@@ -49,8 +49,8 @@ void loop()
     display.drawText(10, 50, "Temp: " + String(BMP180::getTemperature()) + " *C  "); //Temperature
     display.drawText(110, 50, "Pres: " + String(BMP180::getPressure()) + " Pa");     //Pressure
 
-    display.drawText(10, 70, "DT: " + String(DHT11::getTemperature()) + " *C"); //Digital Temperature
-    display.drawText(110, 70, "HR: " + String(DHT11::getHumidity()) + "%");     //Relative Humidity
+    display.drawText(10, 70, "DT: " + String(DHTSensor::getTemperature()) + " *C"); //Digital Temperature
+    display.drawText(110, 70, "HR: " + String(DHTSensor::getHumidity()) + "%");     //Relative Humidity
 
     display.drawText(10, 90, "DustDensity: " + String(GP2Y10::getDustDensity()) + " ug/m3   "); //Dust Density
 

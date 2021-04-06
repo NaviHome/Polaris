@@ -18,7 +18,7 @@
 
 #include <ArduinoJson.h>
 
-class DHT11
+class DHTSensor
 {
 private:
   static byte temperature;
